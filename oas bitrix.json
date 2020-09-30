@@ -9,8 +9,770 @@
     "version" : "1.0.0"
   },
   "servers" : [ {
-    "url" : "/"
+    "url" : "https://{domen}.bitrix24.ru/rest",
+    "variables" : {
+      "domen" : {
+        "description" : "Название домена",
+        "default" : "b24-"
+      }
+    }
+  }, {
+    "url" : "https://{domen}/rest/",
+    "variables" : {
+      "domen" : {
+        "description" : "Название домена",
+        "default" : "b24-"
+      }
+    }
   } ],
-  "paths" : { },
-  "components" : { }
+  "security" : [ {
+    "ApiIntegrationAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Users",
+    "description" : "Работа с пользователями"
+  } ],
+  "paths" : {
+    "/user.fields.{transport}" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary" : "Список полей пользователя",
+        "description" : "### Получение списка названий полей пользователя.\n\nМетод отдаёт стандартный список полей, использование пользовательских полей не предусмотрено.",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/401_unauthorized"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/401_unauthorized"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user.current.{transport}" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary" : "Информация о текущем пользователе",
+        "description" : "### Получение информации о текущем пользователе.\n\nМетод параметров не имеет (кроме транспорта).\n\nОднако, сделав rest запрос с использованием данных из $_REQUEST к домену DOMAIN и добавив AUTH_ID к запросу для доступа к Битрикс24, можно узнать какой пользователь открыл страницу в контексте Битрикс24",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_2"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/401_unauthorized"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/401_unauthorized"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user.update.{transport}" : {
+      "post" : {
+        "tags" : [ "Users" ],
+        "summary" : "Обновляет данные пользователя",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "user_fields" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID",
+            "example" : "ID"
+          },
+          "ACTIVE" : {
+            "type" : "string",
+            "description" : "Активность",
+            "example" : "Активность"
+          },
+          "EMAIL" : {
+            "type" : "string",
+            "description" : "E-Mail",
+            "example" : "E-Mail"
+          },
+          "NAME" : {
+            "type" : "string",
+            "description" : "Имя",
+            "example" : "Имя"
+          },
+          "LAST_NAME" : {
+            "type" : "string",
+            "description" : "Фамилия",
+            "example" : "Фамилия"
+          },
+          "SECOND_NAME" : {
+            "type" : "string",
+            "description" : "Отчество",
+            "example" : "Отчество"
+          },
+          "PERSONAL_GENDER" : {
+            "type" : "string",
+            "description" : "Пол",
+            "example" : "Пол"
+          },
+          "PERSONAL_PROFESSION" : {
+            "type" : "string",
+            "description" : "Профессия",
+            "example" : "Профессия"
+          },
+          "PERSONAL_WWW" : {
+            "type" : "string",
+            "description" : "Домашняя страничка",
+            "example" : "Домашняя страничка"
+          },
+          "PERSONAL_BIRTHDAY" : {
+            "type" : "string",
+            "description" : "Дата рождения",
+            "example" : "Дата рождения"
+          },
+          "PERSONAL_PHOTO" : {
+            "type" : "string",
+            "description" : "Фотография",
+            "example" : "Фотография"
+          },
+          "PERSONAL_ICQ" : {
+            "type" : "string",
+            "description" : "ICQ",
+            "example" : "ICQ"
+          },
+          "PERSONAL_PHONE" : {
+            "type" : "string",
+            "description" : "Личный телефон",
+            "example" : "Личный телефон"
+          },
+          "PERSONAL_FAX" : {
+            "type" : "string",
+            "description" : "Факс",
+            "example" : "Факс"
+          },
+          "PERSONAL_MOBILE" : {
+            "type" : "string",
+            "description" : "Личный мобильный",
+            "example" : "Личный мобильный"
+          },
+          "PERSONAL_PAGER" : {
+            "type" : "string",
+            "description" : "Пейджер",
+            "example" : "Пейджер"
+          },
+          "PERSONAL_STREET" : {
+            "type" : "string",
+            "description" : "Улица проживания",
+            "example" : "Улица проживания"
+          },
+          "PERSONAL_CITY" : {
+            "type" : "string",
+            "description" : "Город проживания",
+            "example" : "Город проживания"
+          },
+          "PERSONAL_STATE" : {
+            "type" : "string",
+            "description" : "Область / край",
+            "example" : "Область / край"
+          },
+          "PERSONAL_ZIP" : {
+            "type" : "string",
+            "description" : "Почтовый индекс",
+            "example" : "Почтовый индекс"
+          },
+          "PERSONAL_COUNTRY" : {
+            "type" : "string",
+            "description" : "Страна",
+            "example" : "Страна"
+          },
+          "WORK_COMPANY" : {
+            "type" : "string",
+            "description" : "Компания",
+            "example" : "Компания"
+          },
+          "WORK_POSITION" : {
+            "type" : "string",
+            "description" : "Должность",
+            "example" : "Должность"
+          },
+          "WORK_PHONE" : {
+            "type" : "string",
+            "description" : "Телефон компании",
+            "example" : "Телефон компании"
+          },
+          "UF_DEPARTMENT" : {
+            "type" : "string",
+            "description" : "Подразделения",
+            "example" : "Подразделения"
+          },
+          "UF_INTERESTS" : {
+            "type" : "string",
+            "description" : "Интересы",
+            "example" : "Интересы"
+          },
+          "UF_SKILLS" : {
+            "type" : "string",
+            "description" : "Навыки",
+            "example" : "Навыки"
+          },
+          "UF_WEB_SITES" : {
+            "type" : "string",
+            "description" : "Другие сайты",
+            "example" : "Другие сайты"
+          },
+          "UF_XING" : {
+            "type" : "string",
+            "description" : "Xing",
+            "example" : "Xing"
+          },
+          "UF_LINKEDIN" : {
+            "type" : "string",
+            "description" : "LinkedIn",
+            "example" : "LinkedIn"
+          },
+          "UF_FACEBOOK" : {
+            "type" : "string",
+            "description" : "Facebook",
+            "example" : "Facebook"
+          },
+          "UF_TWITTER" : {
+            "type" : "string",
+            "description" : "Twitter",
+            "example" : "Twitter"
+          },
+          "UF_SKYPE" : {
+            "type" : "string",
+            "description" : "Логин Skype",
+            "example" : "Логин Skype"
+          },
+          "UF_DISTRICT" : {
+            "type" : "string",
+            "description" : "Район",
+            "example" : "Район"
+          },
+          "UF_PHONE_INNER" : {
+            "type" : "string",
+            "description" : "Внутренний телефон",
+            "example" : "Внутренний телефон"
+          },
+          "USER_TYPE" : {
+            "type" : "string",
+            "description" : "USER_TYPE",
+            "example" : "USER_TYPE"
+          }
+        }
+      },
+      "user_current" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID",
+            "example" : "1"
+          },
+          "ACTIVE" : {
+            "type" : "boolean",
+            "description" : "Активность",
+            "example" : true
+          },
+          "EMAIL" : {
+            "type" : "string",
+            "description" : "E-Mail",
+            "example" : "i.martyanov@bobro42.com"
+          },
+          "NAME" : {
+            "type" : "string",
+            "description" : "Имя",
+            "example" : "Иван"
+          },
+          "LAST_NAME" : {
+            "type" : "string",
+            "description" : "Фамилия",
+            "example" : "Мартьянов"
+          },
+          "SECOND_NAME" : {
+            "type" : "string",
+            "description" : "Отчество",
+            "example" : "Семенович"
+          },
+          "PERSONAL_GENDER" : {
+            "type" : "string",
+            "description" : "Пол",
+            "example" : "M"
+          },
+          "PERSONAL_PROFESSION" : {
+            "type" : "string",
+            "description" : "Профессия",
+            "example" : "Управленец"
+          },
+          "PERSONAL_WWW" : {
+            "type" : "string",
+            "description" : "Домашняя страничка",
+            "example" : "www.ru"
+          },
+          "PERSONAL_BIRTHDAY" : {
+            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2}",
+            "type" : "string",
+            "description" : "Дата рождения",
+            "format" : "date-time",
+            "example" : "1991-01-10T03:00:00+03:00"
+          },
+          "PERSONAL_PHOTO" : {
+            "type" : "string",
+            "description" : "Фотография",
+            "example" : "https://cdn-ru.bitrix24.ru/b11223344/main/111/112233bbddaaff5566778899887766cc/my_avatar.jpg"
+          },
+          "PERSONAL_ICQ" : {
+            "type" : "string",
+            "description" : "ICQ",
+            "example" : "000123321"
+          },
+          "PERSONAL_PHONE" : {
+            "type" : "string",
+            "description" : "Личный телефон",
+            "example" : "+7(999) 888-55-55"
+          },
+          "PERSONAL_FAX" : {
+            "type" : "string",
+            "description" : "Факс",
+            "example" : "+7(999)8885555"
+          },
+          "PERSONAL_MOBILE" : {
+            "type" : "string",
+            "description" : "Личный мобильный",
+            "example" : "+7(999) 888-55-55"
+          },
+          "PERSONAL_PAGER" : {
+            "type" : "string",
+            "description" : "Пейджер",
+            "example" : "777555"
+          },
+          "PERSONAL_STREET" : {
+            "type" : "string",
+            "description" : "Улица проживания",
+            "example" : "Улица проживания"
+          },
+          "PERSONAL_CITY" : {
+            "type" : "string",
+            "description" : "Город проживания",
+            "example" : "Город проживания"
+          },
+          "PERSONAL_STATE" : {
+            "type" : "string",
+            "description" : "Область / край",
+            "example" : "Область / край"
+          },
+          "PERSONAL_ZIP" : {
+            "type" : "string",
+            "description" : "Почтовый индекс",
+            "example" : "Почтовый индекс"
+          },
+          "PERSONAL_COUNTRY" : {
+            "type" : "string",
+            "description" : "Страна",
+            "example" : "Россия"
+          },
+          "WORK_COMPANY" : {
+            "type" : "string",
+            "description" : "Компания",
+            "example" : "Бобры и Зайцы"
+          },
+          "WORK_POSITION" : {
+            "type" : "string",
+            "description" : "Должность",
+            "example" : "Руководитель"
+          },
+          "WORK_PHONE" : {
+            "type" : "string",
+            "description" : "Телефон компании",
+            "example" : "Телефон компании"
+          },
+          "UF_DEPARTMENT" : {
+            "type" : "array",
+            "description" : "Подразделения (IDs)",
+            "example" : [ 1, 8 ],
+            "items" : {
+              "type" : "integer"
+            }
+          },
+          "UF_INTERESTS" : {
+            "type" : "string",
+            "description" : "Интересы",
+            "example" : "Музыка и фильмы"
+          },
+          "UF_SKILLS" : {
+            "type" : "string",
+            "description" : "Навыки",
+            "example" : "Управлять"
+          },
+          "UF_WEB_SITES" : {
+            "type" : "string",
+            "description" : "Другие сайты",
+            "example" : "www.bobro42.rt"
+          },
+          "UF_XING" : {
+            "type" : "string",
+            "description" : "Xing",
+            "example" : "https://www.xing.com/MartIvSen"
+          },
+          "UF_LINKEDIN" : {
+            "type" : "string",
+            "description" : "LinkedIn",
+            "example" : "https://www.linkedin.com/MartIvSen"
+          },
+          "UF_FACEBOOK" : {
+            "type" : "string",
+            "description" : "Facebook",
+            "example" : "https://www.fb.com/MartIvSen"
+          },
+          "UF_TWITTER" : {
+            "type" : "string",
+            "description" : "Twitter",
+            "example" : "https://twitter.com/MartIvSen"
+          },
+          "UF_SKYPE" : {
+            "type" : "string",
+            "description" : "Логин Skype",
+            "example" : "MartIvSen"
+          },
+          "UF_DISTRICT" : {
+            "type" : "string",
+            "description" : "Район",
+            "example" : "Центральный-парк"
+          },
+          "UF_PHONE_INNER" : {
+            "type" : "string",
+            "description" : "Внутренний телефон",
+            "example" : "555"
+          },
+          "USER_TYPE" : {
+            "type" : "string",
+            "description" : "USER_TYPE",
+            "example" : ""
+          }
+        }
+      },
+      "time" : {
+        "type" : "object",
+        "properties" : {
+          "start" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 1601491901.504968
+          },
+          "finish" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 1601491901.546003
+          },
+          "duration" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 0.04103517532348633
+          },
+          "processing" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 0.0008461475372314453
+          },
+          "date_start" : {
+            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2}",
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2020-09-30T20:20:09+03:00"
+          },
+          "date_finish" : {
+            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2}",
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2020-09-30T20:20:09+03:00"
+          }
+        }
+      },
+      "401_unauthorized" : {
+        "type" : "object",
+        "properties" : {
+          "error" : {
+            "type" : "string",
+            "description" : "Ошибка"
+          },
+          "error_description" : {
+            "type" : "string",
+            "description" : "Описание ошибки"
+          }
+        },
+        "description" : "Ошибка авторизации",
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/user_fields"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/user_fields"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_200_2" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/user_current"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "inline_response_200_3" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/user_current"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "body" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/user_current"
+        }, {
+          "required" : [ "ID" ]
+        } ]
+      }
+    },
+    "responses" : {
+      "401_unauthorized" : {
+        "description" : "Ошибка авторизации",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/401_unauthorized"
+            },
+            "examples" : {
+              "expired_token" : {
+                "description" : "Просрочен токен",
+                "value" : {
+                  "error" : "expired_token",
+                  "error_description" : "The access token provided has expired"
+                }
+              },
+              "invalid_token" : {
+                "description" : "Ошибка в токене",
+                "value" : {
+                  "error" : "invalid_token",
+                  "error_description" : "Unable to get application by token"
+                }
+              }
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/401_unauthorized"
+            },
+            "examples" : {
+              "expired_token" : {
+                "description" : "Просрочен токен",
+                "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+              },
+              "invalid_token" : {
+                "description" : "Ошибка в токене",
+                "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "param_transport" : {
+        "name" : "transport",
+        "in" : "path",
+        "description" : "Формат выдачи результатов (json|xml)",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string",
+          "enum" : [ "json", "xml" ]
+        }
+      }
+    },
+    "securitySchemes" : {
+      "ApiIntegrationAuth" : {
+        "type" : "apiKey",
+        "name" : "auth",
+        "in" : "query"
+      }
+    }
+  }
 }
