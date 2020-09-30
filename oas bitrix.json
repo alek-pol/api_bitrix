@@ -1,0 +1,16 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "OAS Bitrix",
+    "description" : "## Перевод в вид OAS3",
+    "contact" : {
+      "email" : "alek_pol@outlook.com"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "paths" : { },
+  "components" : { }
+}
