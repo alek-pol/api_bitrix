@@ -31,6 +31,9 @@
   "tags" : [ {
     "name" : "Users",
     "description" : "Работа с пользователями"
+  }, {
+    "name" : "Telephony",
+    "description" : "Телефония"
   } ],
   "paths" : {
     "/user.fields.{transport}" : {
@@ -884,6 +887,170 @@
           }
         }
       }
+    },
+    "/telephony.externalcall.register.{transport}" : {
+      "post" : {
+        "tags" : [ "Telephony" ],
+        "summary" : "Регистрирует звонок в Битрикс24",
+        "description" : "### Метод регистрирует звонок в Битрикс24, для чего ищет в CRM соответствующий номеру объект. \n- Если находит, то добавляет звонок в привязке к найденному объекту. \n- Если не находит, то может автоматически создать лид.\n#### Одновременно с регистрацией звонка метод опционально может показать пользователю карточку звонка. Пользователь, которому показывается карточка, идентифицируется либо по __USER_ID__, либо по __USER_PHONE_INNER__ (поля помечены как обязательные, но фактически, нужно только одно из двух)\n#### Не нужно повторно вызывать этот метод для звонков, полученных на событии OnExternalCallStart. Эти звонки уже зарегистрированы в системе и для них надо вызывать только telephony.externalcall.finish в конце звонка.\n    Внимание! Повторный вызов telephony.externalcall.register с теми же параметрами, без закрытия предыдущего звонка методом telephony.externalcall.finish, выдает тот же CALL_ID в течение 30 минут.\n  Для создания дела \"звонок\" необходимо также вызывать метод telephony.externalcall.finish/\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_6"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_9"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalcall.finish.{transport}" : {
+      "post" : {
+        "tags" : [ "Telephony" ],
+        "summary" : "Завершает звонок в Битрикс24",
+        "description" : "### Метод завершает звонок, фиксирует его в статистике, скрывает у пользователя карточку звонка. \n#### Метод возвращает массив, аналогичный методу voximplant.statistic.get.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_7"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_10"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -1258,6 +1425,164 @@
           }
         }
       },
+      "call_ext_register_req" : {
+        "type" : "object",
+        "properties" : {
+          "USER_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор пользователя (обязательный на выбор вместо USER_PHONE_INNER)"
+          },
+          "USER_PHONE_INNER" : {
+            "type" : "string",
+            "description" : "Внутренний номер пользователя (обязательный на выбор вместо USER_ID)"
+          },
+          "PHONE_NUMBER" : {
+            "type" : "string",
+            "description" : "Номер телефона (Обязательный)"
+          },
+          "CALL_START_DATE" : {
+            "type" : "string",
+            "description" : "Дата/время звонка в формате iso8601.\tstring"
+          },
+          "CRM_CREATE" : {
+            "type" : "integer",
+            "description" : "[0/1] - Автоматическое создание в CRM сущности, связанной со звонком. При необходимости, создает в CRM лид или сделку, в зависимости от настроек и режима работы CRM . Обратите внимание, что дело звонка создается при любом значении этого параметра"
+          },
+          "CRM_SOURCE" : {
+            "type" : "string",
+            "description" : "STATUS_ID источника из справочника источников. Получить список источников можно методом crm.status.list с фильтром по 'ENTITY_ID' 'SOURCE'"
+          },
+          "CRM_ENTITY_TYPE" : {
+            "type" : "string",
+            "description" : "Тип объекта CRM, из карточки которого совершается звонок - CONTACT | COMPANY | LEAD"
+          },
+          "CRM_ENTITY_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор объекта CRM, тип которого указан в CRM_ENTITY_TYPE"
+          },
+          "SHOW" : {
+            "type" : "integer",
+            "description" : "[0/1] Показывать ли карточку звонка (по умолчанию 1)"
+          },
+          "CALL_LIST_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор списка обзвона, к которому должен быть привязан звонок"
+          },
+          "LINE_NUMBER" : {
+            "type" : "string",
+            "description" : "Номер внешней линии, через который совершался звонок (см. telephony.externalLine.add) Важно! Значения из этого параметра используются в сценариях сквозной аналитики Битрикс24. Поэтому решения по интеграции с телефонией для каталога Приложения24 в обязательном порядке должны передавать здесь номер, на который был совершён регистрируемый входящий звонок"
+          },
+          "TYPE" : {
+            "type" : "integer",
+            "description" : "Обязательный. Тип звонка (1 - исходящий; 2 - входящий; 3 - входящий с перенаправлением; 4 - обратный)"
+          }
+        }
+      },
+      "call_ext_register_res" : {
+        "type" : "object",
+        "properties" : {
+          "CALL_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор звонка внутри Битрикс24"
+          },
+          "CRM_CREATED_LEAD" : {
+            "type" : "integer",
+            "description" : "Идентификатор созданного лида (создается, если в CRM не найден объект по входящему номеру)"
+          },
+          "CRM_CREATED_ENTITIES" : {
+            "type" : "array",
+            "description" : "Массив автоматически созданных в CRM сущностей при регистрации звонка",
+            "items" : {
+              "$ref" : "#/components/schemas/call_ext_register_res_CRM_CREATED_ENTITIES"
+            }
+          },
+          "CRM_ENTITY_TYPE" : {
+            "type" : "string",
+            "description" : "Тип найденного в CRM объекта по входящему номеру CONTACT | COMPANY | LEAD"
+          },
+          "CRM_ENTITY_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор найденного в CRM объекта"
+          },
+          "LEAD_CREATION_ERROR" : {
+            "type" : "string"
+          }
+        }
+      },
+      "call_ext_finish_req" : {
+        "type" : "object",
+        "properties" : {
+          "CALL_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор звонка внутри Битрикс24 - из метода telephony.externalcall.register (Обязательный)"
+          },
+          "USER_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор пользователя (обязательный на выбор вместо USER_PHONE_INNER)"
+          },
+          "USER_PHONE_INNER" : {
+            "type" : "string",
+            "description" : "Внутренний номер пользователя (обязательный на выбор вместо USER_ID)"
+          },
+          "DURATION" : {
+            "type" : "integer",
+            "description" : "Длительность в сек. (Обязательный)"
+          },
+          "COST" : {
+            "type" : "number",
+            "description" : "Стоимость звонка",
+            "format" : "double"
+          },
+          "COST_CURRENCY" : {
+            "type" : "string",
+            "description" : "Валюта, в которой указана стоимость звонка. Список валют можно получить методом crm.currency.list."
+          },
+          "STATUS_CODE" : {
+            "type" : "string",
+            "description" : "SIP-код статуса звонка. Возможны статусы (success - Успешная регистрация; error - Неудачная регистрация; in_progress - В процессе регистрации; wait - Ожидает начала регистрации)"
+          },
+          "FAILED_REASON" : {
+            "type" : "string",
+            "description" : "Причина несостоявшегося звонка"
+          },
+          "RECORD_URL" : {
+            "type" : "string",
+            "description" : "URL файла (желательно mp3) с записью звонка. (Портал осуществит две попытки скачать запись по указанному адресу. В случае неудачи, запись приложена не будет и никакого уведомления об ошибке отправлено не будет). Данный параметр является устаревшим и оставлен исключительно для обратной совместимости. Использовать его крайне не рекомендуется. Для загрузки записи звонка используйте метод telephony.externalCall.attachRecord."
+          },
+          "VOTE" : {
+            "type" : "integer",
+            "description" : "Оценка звонка пользователем (если АТС поддерживает функционал оценки разговора)"
+          },
+          "ADD_TO_CHAT" : {
+            "type" : "integer",
+            "description" : "Добавлять ли сообщение о совершенном звонке сотруднику Б24 в чат ( [0 / 1], по умолчанию 1)"
+          }
+        }
+      },
+      "call_ext_finish_res" : {
+        "type" : "object",
+        "properties" : {
+          "CALL_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор звонка внутри Битрикс24"
+          },
+          "EXTERNAL_CALL_ID" : {
+            "type" : "string"
+          },
+          "CRM_ENTITY_TYPE" : {
+            "type" : "string",
+            "description" : "Тип объекта CRM, к которому прикреплено дело (например LEAD)"
+          },
+          "CRM_ENTITY_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор объекта CRM, к которому прикреплено дело"
+          },
+          "ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор звонка"
+          }
+        }
+      },
       "time" : {
         "type" : "object",
         "properties" : {
@@ -1622,6 +1947,61 @@
         }, {
           "required" : [ "ID" ]
         } ]
+      },
+      "body_6" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/call_ext_register_req"
+        }, {
+          "required" : [ "PHONE_NUMBER", "TYPE", "USER_ID", "USER_PHONE_INNER" ]
+        } ]
+      },
+      "inline_response_200_9" : {
+        "properties" : {
+          "result" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/call_ext_register_res"
+            } ]
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
+        }
+      },
+      "body_7" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/call_ext_finish_req"
+        }, {
+          "required" : [ "PHONE_NUMBER", "TYPE", "USER_ID", "USER_PHONE_INNER" ]
+        } ]
+      },
+      "inline_response_200_10" : {
+        "properties" : {
+          "result" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/call_ext_finish_res"
+            } ]
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
+        }
+      },
+      "call_ext_register_res_CRM_CREATED_ENTITIES" : {
+        "type" : "object",
+        "properties" : {
+          "ENTITY_TYPE" : {
+            "type" : "string",
+            "description" : "тип созданной сущности"
+          },
+          "ENTITY_ID" : {
+            "type" : "integer",
+            "description" : "идентификатор созданной сущности"
+          }
+        }
       }
     },
     "responses" : {
