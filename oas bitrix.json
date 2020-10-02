@@ -37,7 +37,7 @@
       "get" : {
         "tags" : [ "Users" ],
         "summary" : "Список полей пользователя",
-        "description" : "### Получение списка названий полей пользователя.\n\nМетод отдаёт стандартный список полей, использование пользовательских полей не предусмотрено.",
+        "description" : "### Получение списка названий полей пользователя.\nМетод отдаёт стандартный список полей, использование пользовательских полей не предусмотрено.\n",
         "parameters" : [ {
           "name" : "transport",
           "in" : "path",
@@ -71,7 +71,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/401_unauthorized"
+                  "$ref" : "#/components/schemas/inline_response_401"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -92,7 +92,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/401_unauthorized"
+                  "$ref" : "#/components/schemas/inline_response_401"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -114,7 +114,7 @@
       "get" : {
         "tags" : [ "Users" ],
         "summary" : "Информация о текущем пользователе",
-        "description" : "### Получение информации о текущем пользователе.\n\nМетод параметров не имеет (кроме транспорта).\n\nОднако, сделав rest запрос с использованием данных из $_REQUEST к домену DOMAIN и добавив AUTH_ID к запросу для доступа к Битрикс24, можно узнать какой пользователь открыл страницу в контексте Битрикс24",
+        "description" : "### Получение информации о текущем пользователе.\nМетод параметров не имеет (кроме транспорта).\nОднако, сделав rest запрос с использованием данных из ___$_REQUEST___ к домену __DOMAIN__ и добавив ___AUTH_ID___ к запросу для доступа к Битрикс24, можно узнать какой пользователь открыл страницу в контексте Битрикс24\n",
         "parameters" : [ {
           "name" : "transport",
           "in" : "path",
@@ -148,7 +148,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/401_unauthorized"
+                  "$ref" : "#/components/schemas/inline_response_401"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -169,7 +169,443 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/401_unauthorized"
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user.get.{transport}" : {
+      "get" : {
+        "tags" : [ "ToDo" ],
+        "summary" : "Список пользователей (фильтрованный)",
+        "description" : "### Получение фильтрованного списка пользователей.\nМетод вернет всех пользователей за исключением: ботов, пользователей для e-mail, пользователей для Открытых Линий, пользователей Реплики.\n",
+        "parameters" : [ {
+          "name" : "sort",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "order",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "ASC", "DESC" ]
+          }
+        }, {
+          "name" : "filter",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object",
+              "properties" : {
+                "field" : {
+                  "type" : "string"
+                },
+                "value" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }, {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ok"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Users" ],
+        "summary" : "Список пользователей (фильтрованный)",
+        "description" : "### Получение фильтрованного списка пользователей.\nМетод вернет всех пользователей за исключением: ботов, пользователей для e-mail, пользователей для Открытых Линий, пользователей Реплики.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "requestBody" : {
+          "description" : "## __Параметры:__\n`sort:` - поле, по которому сортируются результаты\n---\n`order:` - направление сортировки\n* __ASC__ - по возрастанию;\n* __DESC__ - по убыванию.\n---\n`filter:` -  Дополнительно можно указывать любые параметры из `\"GET /user.fields\"` для фильтрации по их значениям. Кроме основных полей, доступны дополнительные:  \n  * __UF_DEPARTMENT__ - принадлежность к структуре компании;\n  * __UF_PHONE_INNER___ - внутренний телефонный номер;\n  * __IS_ONLINE__ - [Y/N] - позволяет показать только авторизованных или нет пользователей.\n  * __NAME_SEARCH__ - быстрый поиск по персональным данным.\n  * __USER_TYPE__ - тип пользователя. Может принимать следующие значения:\n    + __employee__ - сотрудник,\n    + __extranet__ - пользователь экстранета,\n    + __email__ - почтовый пользователь\n  * __ACTIVE__ - при значении true исключает из запроса уволенных пользователей.\n  #### Параметры фильтрации могут принимать значение массивов.\n---\n`ADMIN_MODE` -  Ключ для работы _(Получается с помощью метода __user.fields__)_ в режиме администратора, служит для получения данных о любых пользователях.\n",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              },
+              "examples" : {
+                "example_1" : {
+                  "value" : {
+                    "sort" : "PERSONAL_BIRTHDAY",
+                    "order" : "ASC",
+                    "filter" : {
+                      "PERSONAL_STREET" : "Липовая аллея",
+                      "UF_DEPARTMENT" : "7"
+                    }
+                  }
+                },
+                "example_2" : {
+                  "value" : {
+                    "sort" : "ID",
+                    "order" : "DESC",
+                    "filter" : {
+                      "IS_ONLINE" : "N"
+                    }
+                  }
+                },
+                "example_3" : {
+                  "value" : {
+                    "filter" : {
+                      "UF_PHONE_INNER" : [ "222", "555" ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Доступ запрещен",
+            "headers" : {
+              "status" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "example" : "403 Forbidden"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user.search.{transport}" : {
+      "post" : {
+        "tags" : [ "Users" ],
+        "summary" : "Список пользователей (ускоренный)",
+        "description" : "### Метод для получения списка пользователей с ускоренным поиском по персональным данным:\nимя, фамилия, отчество, название подразделения, должность. \n\n__Работает в двух режимах:__ \n  * быстро с помощью ___Fulltext Index___; \n  * более медленный вариант через правый LIKE \n    (поддержка определяется автоматически).\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "requestBody" : {
+          "description" : "## __Параметры:__\n`filter:` - Массив может содержать поля в любом сочетании: \n  * __NAME__ - имя;\n  * __LAST_NAME__ - фамилия;\n  * __SECOND_NAME__ - отчество;\n  * __WORK_POSITION__ - должность;\n  * __UF_DEPARTMENT_NAME__ - название подразделения;\n  * __USER_TYPE__ - тип пользователя. Может принимать следующие значения:\n    + __employee__ - сотрудник;\n    + __extranet__ - пользователь экстранета;\n    + __email__ - почтовый пользователь.\n  * Или `FIND` - поле которое будет искать во всех перечисленных полях _(Это аналог режима старого CUser::GetList в котором можно было задать фильтр NAME_SEARCH и получить результат)_\n  ---\n    Метод может работать либо с фильтрацией с помощью ключа FIND или со всеми другими полями. Одновременно использовать FIND и любое другое поле - нельзя.\n",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_1"
+              },
+              "examples" : {
+                "example_1" : {
+                  "value" : {
+                    "filter" : {
+                      "NAME" : "Иван",
+                      "SECOND_NAME" : "Константинович"
+                    }
+                  }
+                },
+                "example_2" : {
+                  "value" : {
+                    "filter" : {
+                      "UF_DEPARTMENT_NAME" : "Отдел маркетинга и рекламы"
+                    }
+                  }
+                },
+                "example_3" : {
+                  "value" : {
+                    "filter" : {
+                      "FIND" : "Боборожоров"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Доступ запрещен",
+            "headers" : {
+              "status" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "example" : "403 Forbidden"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user.add.{transport}" : {
+      "post" : {
+        "tags" : [ "Users" ],
+        "summary" : "Добавление пользователя",
+        "description" : "### Приглашает пользователя.\n__!__ Возможно только от имени пользователя с правами приглашения пользователей.\n#### В случае успеха пользователю будет выслано стандартное приглашение на портал.\n### *Дополнительно:*\n* Если нужно добавить пользователя экстранета, то в полях необходимо передать:\n  + __EXTRANET: Y__ и __SONET_GROUP_ID: [...]__\n* Если нужно добавить пользователя интранета, то обязательно передаётся:\n  + __UF_DEPARTMENT: [...]__\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_2"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_3"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_5"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_6"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "wrong_email" : {
+                    "description" : "Не указан / неправильно указан E-mail",
+                    "value" : {
+                      "error" : "ERROR_CORE",
+                      "error_description" : "wrong_email"
+                    }
+                  },
+                  "access_denied" : {
+                    "description" : "Неправильный запрос",
+                    "value" : {
+                      "error" : "ERROR_CORE",
+                      "error_description" : "access_denied"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "wrong_email" : {
+                    "description" : "Не указан / неправильно указан E-mail",
+                    "value" : "<response>\n  <error>ERROR_CORE</error>\n  <error_description>wrong_email</error_description>\n</response>\n"
+                  },
+                  "access_denied" : {
+                    "description" : "Неправильный запрос",
+                    "value" : "<response>\n  <error>ERROR_CORE</error>\n  <error_description>access_denied</error_description>\n</response>\n"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -188,9 +624,152 @@
       }
     },
     "/user.update.{transport}" : {
+      "get" : {
+        "tags" : [ "ToDo" ],
+        "summary" : "Обновление данных пользователя",
+        "description" : "### Обновляет данные пользователя.\n#### Приведено как пример (не все поля доступны)\n    Возможно только от имени пользователя с правами приглашения пользователей.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "ID",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "ACTIVE",
+          "in" : "query",
+          "description" : "Активность",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean"
+          }
+        }, {
+          "name" : "EMAIL",
+          "in" : "query",
+          "description" : "E-Mail",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "NAME",
+          "in" : "query",
+          "description" : "Имя",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_7"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_8"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Неправильный запрос",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Доступ запрещен",
+            "headers" : {
+              "status" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "example" : "403 Forbidden"
+                }
+              }
+            }
+          }
+        }
+      },
       "post" : {
         "tags" : [ "Users" ],
-        "summary" : "Обновляет данные пользователя",
+        "summary" : "Обновление данных пользователя",
+        "description" : "### Обновляет данные пользователя.\n    Возможно только от имени пользователя с правами приглашения пользователей.\n",
         "parameters" : [ {
           "name" : "transport",
           "in" : "path",
@@ -207,7 +786,12 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body"
+                "$ref" : "#/components/schemas/body_4"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_5"
               }
             }
           },
@@ -215,7 +799,88 @@
         },
         "responses" : {
           "200" : {
-            "description" : "ok"
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_7"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_8"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Неправильный запрос",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_401"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Доступ запрещен",
+            "headers" : {
+              "status" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "example" : "403 Forbidden"
+                }
+              }
+            }
           }
         }
       }
@@ -408,14 +1073,9 @@
           }
         }
       },
-      "user_current" : {
+      "user" : {
         "type" : "object",
         "properties" : {
-          "ID" : {
-            "type" : "string",
-            "description" : "ID",
-            "example" : "1"
-          },
           "ACTIVE" : {
             "type" : "boolean",
             "description" : "Активность",
@@ -476,17 +1136,17 @@
           "PERSONAL_PHONE" : {
             "type" : "string",
             "description" : "Личный телефон",
-            "example" : "+7(999) 888-55-55"
+            "example" : "8 (999) 888-55-55"
           },
           "PERSONAL_FAX" : {
             "type" : "string",
             "description" : "Факс",
-            "example" : "+7(999)8885555"
+            "example" : "8 (999) 888-55-55"
           },
           "PERSONAL_MOBILE" : {
             "type" : "string",
             "description" : "Личный мобильный",
-            "example" : "+7(999) 888-55-55"
+            "example" : "+79998885555"
           },
           "PERSONAL_PAGER" : {
             "type" : "string",
@@ -531,7 +1191,7 @@
           "WORK_PHONE" : {
             "type" : "string",
             "description" : "Телефон компании",
-            "example" : "Телефон компании"
+            "example" : "8 (999) 888-00-00"
           },
           "UF_DEPARTMENT" : {
             "type" : "array",
@@ -635,7 +1295,7 @@
           }
         }
       },
-      "401_unauthorized" : {
+      "error" : {
         "type" : "object",
         "properties" : {
           "error" : {
@@ -647,7 +1307,7 @@
             "description" : "Описание ошибки"
           }
         },
-        "description" : "Ошибка авторизации",
+        "description" : "Ошибка",
         "xml" : {
           "name" : "response"
         }
@@ -677,14 +1337,32 @@
           "name" : "response"
         }
       },
+      "inline_response_401" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/error"
+        } ]
+      },
       "inline_response_200_2" : {
         "type" : "object",
         "properties" : {
           "result" : {
-            "$ref" : "#/components/schemas/user_current"
+            "allOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "ID" : {
+                  "type" : "string",
+                  "description" : "ID",
+                  "example" : "1"
+                }
+              }
+            }, {
+              "$ref" : "#/components/schemas/user"
+            } ]
           },
           "time" : {
-            "$ref" : "#/components/schemas/time"
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
           }
         }
       },
@@ -692,10 +1370,23 @@
         "type" : "object",
         "properties" : {
           "result" : {
-            "$ref" : "#/components/schemas/user_current"
+            "allOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "ID" : {
+                  "type" : "string",
+                  "description" : "ID",
+                  "example" : "1"
+                }
+              }
+            }, {
+              "$ref" : "#/components/schemas/user"
+            } ]
           },
           "time" : {
-            "$ref" : "#/components/schemas/time"
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
           }
         },
         "xml" : {
@@ -703,20 +1394,288 @@
         }
       },
       "body" : {
+        "type" : "object",
+        "properties" : {
+          "sort" : {
+            "type" : "string",
+            "description" : "sort"
+          },
+          "order" : {
+            "type" : "string",
+            "enum" : [ "ASC", "DESC" ]
+          },
+          "filter" : {
+            "allOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "IS_ONLINE" : {
+                  "type" : "string",
+                  "description" : "Y/N - позволяет показать только авторизованных или нет пользователей"
+                },
+                "NAME_SEARCH" : {
+                  "type" : "string",
+                  "description" : "быстрый поиск по персональным данным"
+                },
+                "ID" : {
+                  "type" : "string",
+                  "description" : "ID",
+                  "example" : "1"
+                }
+              }
+            }, {
+              "$ref" : "#/components/schemas/user"
+            } ]
+          }
+        }
+      },
+      "inline_response_200_4" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "items" : {
+              "allOf" : [ {
+                "type" : "object",
+                "properties" : {
+                  "ID" : {
+                    "type" : "string",
+                    "description" : "ID",
+                    "example" : "1"
+                  }
+                }
+              }, {
+                "$ref" : "#/components/schemas/user"
+              } ]
+            }
+          },
+          "total" : {
+            "type" : "integer",
+            "description" : "Количество найденных пользователей",
+            "example" : 1
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
+        }
+      },
+      "body_1" : {
+        "type" : "object",
+        "properties" : {
+          "filter" : {
+            "anyOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "NAME" : {
+                  "type" : "string",
+                  "description" : "Имя"
+                },
+                "LAST_NAME" : {
+                  "type" : "string",
+                  "description" : "фамилия"
+                },
+                "SECOND_NAME" : {
+                  "type" : "string",
+                  "description" : "отчество"
+                },
+                "WORK_POSITION" : {
+                  "type" : "string",
+                  "description" : "должность"
+                },
+                "UF_DEPARTMENT_NAME" : {
+                  "type" : "string",
+                  "description" : "название подразделения"
+                },
+                "USER_TYPE" : {
+                  "type" : "string",
+                  "description" : "тип пользователя. Может принимать следующие значения:\n  employee - сотрудник;\n  extranet - пользователь экстранета;\n  email - почтовый пользователь.\n"
+                }
+              },
+              "description" : "Основные поля (в любом кол-ве)"
+            }, {
+              "type" : "object",
+              "properties" : {
+                "Find" : {
+                  "type" : "string",
+                  "description" : "Ищет во всех основных полях"
+                }
+              }
+            } ]
+          }
+        }
+      },
+      "body_2" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/user_current"
+          "$ref" : "#/components/schemas/user"
+        }, {
+          "required" : [ "EMAIL" ]
+        } ]
+      },
+      "body_3" : {
+        "xml" : {
+          "name" : "request"
+        },
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/user"
+        }, {
+          "required" : [ "EMAIL" ]
+        } ]
+      },
+      "inline_response_200_5" : {
+        "properties" : {
+          "result" : {
+            "type" : "integer",
+            "example" : 11
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
+        }
+      },
+      "inline_response_200_6" : {
+        "properties" : {
+          "result" : {
+            "type" : "integer",
+            "example" : 11
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_200_7" : {
+        "properties" : {
+          "result" : {
+            "type" : "boolean"
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
+        }
+      },
+      "inline_response_200_8" : {
+        "properties" : {
+          "result" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_400" : {
+        "example" : {
+          "error" : "ERROR_CORE",
+          "error_description" : "access_denied"
+        },
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/error"
+        } ]
+      },
+      "body_4" : {
+        "allOf" : [ {
+          "type" : "object",
+          "properties" : {
+            "ID" : {
+              "type" : "string",
+              "description" : "ID",
+              "example" : "1"
+            }
+          }
+        }, {
+          "$ref" : "#/components/schemas/user"
+        }, {
+          "required" : [ "ID" ]
+        } ]
+      },
+      "body_5" : {
+        "xml" : {
+          "name" : "require"
+        },
+        "allOf" : [ {
+          "type" : "object",
+          "properties" : {
+            "ID" : {
+              "type" : "string",
+              "description" : "ID",
+              "example" : "1"
+            }
+          }
+        }, {
+          "$ref" : "#/components/schemas/user"
         }, {
           "required" : [ "ID" ]
         } ]
       }
     },
     "responses" : {
+      "200_result" : {
+        "description" : "Результат запроса",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_7"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_8"
+            }
+          }
+        }
+      },
+      "200_result_int" : {
+        "description" : "Результат запроса",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_5"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_6"
+            }
+          }
+        }
+      },
+      "400_bad_request" : {
+        "description" : "Неправильный запрос",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_400"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_400"
+            }
+          }
+        }
+      },
       "401_unauthorized" : {
         "description" : "Ошибка авторизации",
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/401_unauthorized"
+              "$ref" : "#/components/schemas/inline_response_401"
             },
             "examples" : {
               "expired_token" : {
@@ -737,7 +1696,7 @@
           },
           "application/xml" : {
             "schema" : {
-              "$ref" : "#/components/schemas/401_unauthorized"
+              "$ref" : "#/components/schemas/inline_response_401"
             },
             "examples" : {
               "expired_token" : {
@@ -748,6 +1707,19 @@
                 "description" : "Ошибка в токене",
                 "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
               }
+            }
+          }
+        }
+      },
+      "403_forbidden" : {
+        "description" : "Доступ запрещен",
+        "headers" : {
+          "status" : {
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string",
+              "example" : "403 Forbidden"
             }
           }
         }
@@ -764,6 +1736,22 @@
         "schema" : {
           "type" : "string",
           "enum" : [ "json", "xml" ]
+        }
+      }
+    },
+    "examples" : {
+      "expired_token" : {
+        "description" : "Просрочен токен",
+        "value" : {
+          "error" : "expired_token",
+          "error_description" : "The access token provided has expired"
+        }
+      },
+      "invalid_token" : {
+        "description" : "Ошибка в токене",
+        "value" : {
+          "error" : "invalid_token",
+          "error_description" : "Unable to get application by token"
         }
       }
     },
