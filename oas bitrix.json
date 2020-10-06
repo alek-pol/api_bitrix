@@ -34,6 +34,9 @@
   }, {
     "name" : "Telephony",
     "description" : "Телефония"
+  }, {
+    "name" : "Telephony-line",
+    "description" : "Телефония (управление линиями)"
   } ],
   "paths" : {
     "/user.fields.{transport}" : {
@@ -74,7 +77,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -95,7 +98,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -151,7 +154,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -172,7 +175,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -191,67 +194,6 @@
       }
     },
     "/user.get.{transport}" : {
-      "get" : {
-        "tags" : [ "ToDo" ],
-        "summary" : "Список пользователей (фильтрованный)",
-        "description" : "### Получение фильтрованного списка пользователей.\nМетод вернет всех пользователей за исключением: ботов, пользователей для e-mail, пользователей для Открытых Линий, пользователей Реплики.\n",
-        "parameters" : [ {
-          "name" : "sort",
-          "in" : "query",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "order",
-          "in" : "query",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "ASC", "DESC" ]
-          }
-        }, {
-          "name" : "filter",
-          "in" : "query",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object",
-              "properties" : {
-                "field" : {
-                  "type" : "string"
-                },
-                "value" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }, {
-          "name" : "transport",
-          "in" : "path",
-          "description" : "Формат выдачи результатов (json|xml)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "json", "xml" ]
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "ok"
-          }
-        }
-      },
       "post" : {
         "tags" : [ "Users" ],
         "summary" : "Список пользователей (фильтрованный)",
@@ -322,7 +264,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -343,7 +285,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -441,7 +383,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -462,7 +404,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -546,7 +488,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "wrong_email" : {
@@ -567,7 +509,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "wrong_email" : {
@@ -587,7 +529,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -608,7 +550,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -627,148 +569,6 @@
       }
     },
     "/user.update.{transport}" : {
-      "get" : {
-        "tags" : [ "ToDo" ],
-        "summary" : "Обновление данных пользователя",
-        "description" : "### Обновляет данные пользователя.\n#### Приведено как пример (не все поля доступны)\n    Возможно только от имени пользователя с правами приглашения пользователей.\n",
-        "parameters" : [ {
-          "name" : "transport",
-          "in" : "path",
-          "description" : "Формат выдачи результатов (json|xml)",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "json", "xml" ]
-          }
-        }, {
-          "name" : "ID",
-          "in" : "query",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "ACTIVE",
-          "in" : "query",
-          "description" : "Активность",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "boolean"
-          }
-        }, {
-          "name" : "EMAIL",
-          "in" : "query",
-          "description" : "E-Mail",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "NAME",
-          "in" : "query",
-          "description" : "Имя",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Результат запроса",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_7"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_8"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Неправильный запрос",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_400"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_400"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Ошибка авторизации",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
-                },
-                "examples" : {
-                  "expired_token" : {
-                    "description" : "Просрочен токен",
-                    "value" : {
-                      "error" : "expired_token",
-                      "error_description" : "The access token provided has expired"
-                    }
-                  },
-                  "invalid_token" : {
-                    "description" : "Ошибка в токене",
-                    "value" : {
-                      "error" : "invalid_token",
-                      "error_description" : "Unable to get application by token"
-                    }
-                  }
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
-                },
-                "examples" : {
-                  "expired_token" : {
-                    "description" : "Просрочен токен",
-                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
-                  },
-                  "invalid_token" : {
-                    "description" : "Ошибка в токене",
-                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
-                  }
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Доступ запрещен",
-            "headers" : {
-              "status" : {
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "string",
-                  "example" : "403 Forbidden"
-                }
-              }
-            }
-          }
-        }
-      },
       "post" : {
         "tags" : [ "Users" ],
         "summary" : "Обновление данных пользователя",
@@ -836,7 +636,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -857,7 +657,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -910,6 +710,18 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/body_6"
+              },
+              "examples" : {
+                "example_1" : {
+                  "value" : {
+                    "USER_ID" : 1,
+                    "PHONE_NUMBER" : "+79997770110",
+                    "CALL_START_DATE" : "2020-10-02T20:10:02+02:00",
+                    "CRM_CREATE" : 1,
+                    "SHOW" : 1,
+                    "TYPE" : 2
+                  }
+                }
               }
             }
           },
@@ -922,6 +734,14 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/inline_response_200_9"
+                },
+                "examples" : {
+                  "example_1" : {
+                    "$ref" : "#/components/examples/ext_call_register_example1"
+                  },
+                  "example_2" : {
+                    "$ref" : "#/components/examples/ext_call_register_example2"
+                  }
                 }
               }
             }
@@ -931,7 +751,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -952,7 +772,7 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -1004,6 +824,14 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/inline_response_200_10"
+                },
+                "examples" : {
+                  "example_1" : {
+                    "$ref" : "#/components/examples/ext_call_finish_example1"
+                  },
+                  "example_2" : {
+                    "$ref" : "#/components/examples/ext_call_finish_example2"
+                  }
                 }
               }
             }
@@ -1013,7 +841,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -1034,7 +862,939 @@
               },
               "application/xml" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_401"
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalcall.show.{transport}" : {
+      "get" : {
+        "tags" : [ "Telephony" ],
+        "summary" : "Показывает карточку звонка",
+        "description" : "### Метод показывает карточку звонка пользователю.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "CALL_ID",
+          "in" : "query",
+          "description" : "Идентификатор звонка (см. метод telephony.externalcall.register)",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "USER_ID",
+          "in" : "query",
+          "description" : "Идентификатор, либо массив идентификаторов пользователей",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_7"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_8"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalcall.hide.{transport}" : {
+      "get" : {
+        "tags" : [ "Telephony" ],
+        "summary" : "Скрыть карточку звонка",
+        "description" : "### Метод скрывает карточку звонка у пользователя.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "CALL_ID",
+          "in" : "query",
+          "description" : "Идентификатор звонка (см. метод telephony.externalcall.register)",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "USER_ID",
+          "in" : "query",
+          "description" : "Идентификатор, либо массив идентификаторов пользователей (у которых надо скрыть звонок, если карточка показывается не у одного пользователя)",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_7"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_8"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalCall.searchCrmEntities.{transport}" : {
+      "get" : {
+        "tags" : [ "Telephony" ],
+        "summary" : "Получить информацию о клиенте CRM",
+        "description" : "### Метод позволяет получить одним запросом по номеру телефона информацию о клиенте из CRM.\n#### Информация позволяет принять решение кому из сотрудников перенаправить входящий звонок на пользователя прямо в этот момент. Метод возвращает подходящий список CRM-объектов с сортировкой по внутренним приоритетам. Если за сущности связанные с номером отвечают разные сотрудники (за лид отвечает один сотрудник, за компанию - другой), то рекомендуется брать тот объект, который метод вернул первым в списке. Если интеграция предполагает собственную логику, то возможен выбор, так как отдаются все объекты.\n#### В списке объектов CRM сразу сообщается вся информация об ответственном сотруднике за каждый объект (чтобы не приходилось получать эти данных дополнительными запросами REST). Возвращаются все заданные у пользователя контактные телефоны: внутренний телефон сотрудника, мобильный, рабочий и т.д..\n#### Возвращается и статус рабочего дня сотрудника (если в Битрикс24 включен учет рабочего времени). Интеграция может проверить, находится ли сотрудник на рабочем месте (или у него перерыв), и либо перенаправить входящий звонок в очередь, либо направить звонок на мобильник сотрудника и т.д.\n#### Рекомендуется вызывать метод до вызова telephony.externalcall.register.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "PHONE_NUMBER",
+          "in" : "query",
+          "description" : "Номер клиента",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "79110707070"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_11"
+                },
+                "example" : {
+                  "result" : [ {
+                    "CRM_ENTITY_TYPE" : "CONTACT",
+                    "CRM_ENTITY_ID" : 4,
+                    "ASSIGNED_BY_ID" : 1,
+                    "NAME" : "John",
+                    "ASSIGNED_BY\"" : {
+                      "ID" : "1",
+                      "TIMEMAN_STATUS" : "EXPIRED",
+                      "USER_PHONE_INNER" : "555",
+                      "WORK_PHONE" : "+79997770001",
+                      "PERSONAL_MOBILE" : "+7(999)777-77-77"
+                    }
+                  }, {
+                    "CRM_ENTITY_TYPE" : "LEAD",
+                    "CRM_ENTITY_ID" : 2,
+                    "ASSIGNED_BY_ID" : 1,
+                    "NAME" : "+79150505015 - Входящий звонок",
+                    "ASSIGNED_BY\"" : {
+                      "ID" : "1",
+                      "TIMEMAN_STATUS" : "EXPIRED",
+                      "USER_PHONE_INNER" : "555",
+                      "WORK_PHONE" : "+79997770001",
+                      "PERSONAL_MOBILE" : "+7(999)777-77-77"
+                    }
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalCall.attachRecord.{transport}" : {
+      "post" : {
+        "tags" : [ "Telephony" ],
+        "summary" : "Прикрепить запись к завершенному звонку",
+        "description" : "### Метод прикрепляет запись к завершенному звонку и к Делу звонка. \n  Должен вызываться после telephony.external.finish, если запись на момент вызова finish еще не готова) \n#### Запись прикрепляется только одна. Если вызвать метод несколько раз, то следующий вызов перетрет предыдущую запись.\n### Во время выполнения метода, портал осуществит одну попытку скачать запись по указанному адресу. В случае неудачи, метод вернет ошибку.\n    Так как возможность скачивания зависит от множества независящих от портала факторов, использование данного параметра не рекомендуется.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "CALL_ID",
+          "in" : "query",
+          "description" : "Идентификатор звонка (см. метод telephony.externalcall.register)",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "FILENAME",
+          "in" : "query",
+          "description" : "Имя файла, обязательный. Имя файла должно заканчиваться на wav или mp3",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "FILE_CONTENT",
+          "in" : "query",
+          "description" : "base64-кодированное содержимое файла. Необязательный. Если параметр не указать, метод вернет параметр uploadUrl - урл, на который можно за'upload'ить содержимое файла.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "RECORD_URL",
+          "in" : "query",
+          "description" : "Ссылка на запись на сервере клиента. Если указано, то будет осуществлена попытка скачать запись по указанному адресу, вместо ожидания загрузки записи на портал клиента.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_12"
+                },
+                "examples" : {
+                  "example1" : {
+                    "summary" : "ID - файла",
+                    "value" : {
+                      "result" : {
+                        "FILE_ID" : 55
+                      }
+                    }
+                  },
+                  "example2" : {
+                    "summary" : "uploadUrl",
+                    "value" : {
+                      "result" : {
+                        "uploadUrl" : "https://b24-eyn16e.bitrix24.ru/rest/upload.json?auth=8abdc3&token=telephony%7CY"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.call.attachTranscription.{transport}" : {
+      "post" : {
+        "tags" : [ "Telephony" ],
+        "summary" : "Добавить расшифровку записи к звонку",
+        "description" : "### Метод добавляет расшифровку записи к звонку.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_8"
+              },
+              "example" : {
+                "CALL_ID" : "externalCall.9ea1a69",
+                "COST" : 3.11,
+                "COST_CURRENCY" : "Российский рубль",
+                "MESSAGES" : [ {
+                  "SIDE" : "User",
+                  "START_TIME" : 1,
+                  "STOP_TIME" : 3,
+                  "MESSAGE" : "Добрый день, чем могу помочь"
+                }, {
+                  "SIDE" : "Client",
+                  "START_TIME" : 4,
+                  "STOP_TIME" : 8,
+                  "MESSAGE" : "Здравствуйте, вы продаете пылесосы?"
+                }, {
+                  "SIDE" : "User",
+                  "START_TIME" : 9,
+                  "STOP_TIME" : 11,
+                  "MESSAGE" : "К сожалению, нет"
+                }, {
+                  "SIDE" : "Client",
+                  "START_TIME" : 11,
+                  "STOP_TIME" : 13,
+                  "MESSAGE" : "Понятно, до свидания"
+                }, {
+                  "SIDE" : "User",
+                  "START_TIME" : 13,
+                  "STOP_TIME" : 15,
+                  "MESSAGE" : "До свидания"
+                } ]
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_13"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_14"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalLine.get.{transport}" : {
+      "get" : {
+        "tags" : [ "Telephony-line" ],
+        "summary" : "Получить список внешних линий приложения",
+        "description" : "### Метод позволяет получить список внешних линий приложения.\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_15"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_16"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalLine.add.{transport}" : {
+      "post" : {
+        "tags" : [ "Telephony-line" ],
+        "summary" : "Добавить внешнюю линию",
+        "description" : "### Метод позволяет добавить внешнюю линию\n    После добавления, внешнюю линию можно указать при регистрации звонка, в поле LINE_NUMBER (см telephony.externalcall.register). \n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "NUMBER",
+          "in" : "query",
+          "description" : "Номер внешней линии",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "79110000001"
+          }
+        }, {
+          "name" : "NAME",
+          "in" : "query",
+          "description" : "Название внешней линии",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_17"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_18"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Не указан номер телефона",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : {
+                  "error" : "",
+                  "error_description" : "NUMBER should not be empty"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : "<response>\n  <error></error>\n  <error_description>NUMBER should not be empty</error_description>\n</response>\n"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalLine.update.{transport}" : {
+      "post" : {
+        "tags" : [ "Telephony-line" ],
+        "summary" : "Изменить название внешней линииию",
+        "description" : "### Метод позволяет изменить название внешней линии\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "NUMBER",
+          "in" : "query",
+          "description" : "Номер внешней линии",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "79110000001"
+          }
+        }, {
+          "name" : "NAME",
+          "in" : "query",
+          "description" : "Название внешней линии",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_19"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_20"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Не найдена линия с номером",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : {
+                  "error" : "",
+                  "error_description" : "Could not find line with number___"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : "<response>\n  <error></error>\n  <error_description>Could not find line with number____</error_description>\n</response>\n"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/telephony.externalLine.delete.{transport}" : {
+      "post" : {
+        "tags" : [ "Telephony-line" ],
+        "summary" : "Удалить внешнюю линию",
+        "description" : "### Метод позволяет удалить внешнюю линию\n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        }, {
+          "name" : "NUMBER",
+          "in" : "query",
+          "description" : "Номер внешней линии",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "79110000002"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Результат запроса",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_21"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_22"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Не найдена линия с номером",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : {
+                  "error" : "",
+                  "error_description" : "Could not find line with number___"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "example" : "<response>\n  <error></error>\n  <error_description>Could not find line with number____</error_description>\n</response>\n"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
                 },
                 "examples" : {
                   "expired_token" : {
@@ -1425,7 +2185,7 @@
           }
         }
       },
-      "call_ext_register_req" : {
+      "ext_call_register_req" : {
         "type" : "object",
         "properties" : {
           "USER_ID" : {
@@ -1442,7 +2202,7 @@
           },
           "CALL_START_DATE" : {
             "type" : "string",
-            "description" : "Дата/время звонка в формате iso8601.\tstring"
+            "description" : "Дата/время звонка в формате iso8601.  string"
           },
           "CRM_CREATE" : {
             "type" : "integer",
@@ -1478,7 +2238,7 @@
           }
         }
       },
-      "call_ext_register_res" : {
+      "ext_call_register_res" : {
         "type" : "object",
         "properties" : {
           "CALL_ID" : {
@@ -1493,7 +2253,7 @@
             "type" : "array",
             "description" : "Массив автоматически созданных в CRM сущностей при регистрации звонка",
             "items" : {
-              "$ref" : "#/components/schemas/call_ext_register_res_CRM_CREATED_ENTITIES"
+              "$ref" : "#/components/schemas/ext_call_register_res_CRM_CREATED_ENTITIES"
             }
           },
           "CRM_ENTITY_TYPE" : {
@@ -1509,7 +2269,7 @@
           }
         }
       },
-      "call_ext_finish_req" : {
+      "ext_call_finish_req" : {
         "type" : "object",
         "properties" : {
           "CALL_ID" : {
@@ -1559,7 +2319,7 @@
           }
         }
       },
-      "call_ext_finish_res" : {
+      "ext_call_finish_res" : {
         "type" : "object",
         "properties" : {
           "CALL_ID" : {
@@ -1580,6 +2340,30 @@
           "ID" : {
             "type" : "integer",
             "description" : "Идентификатор звонка"
+          }
+        }
+      },
+      "crm_entity" : {
+        "type" : "object",
+        "properties" : {
+          "CRM_ENTITY_TYPE" : {
+            "type" : "string",
+            "description" : "Тип объекта CRM, из карточки которого совершается звонок - CONTACT | COMPANY | LEAD"
+          },
+          "CRM_ENTITY_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор объекта CRM (тип которого указан в CRM_ENTITY_TYPE)"
+          },
+          "ASSIGNED_BY_ID" : {
+            "type" : "integer",
+            "description" : "Связано с пользователем по ID"
+          },
+          "NAME" : {
+            "type" : "string",
+            "description" : "Имя / название объекта CRM"
+          },
+          "ASSIGNED_BY" : {
+            "$ref" : "#/components/schemas/crm_entity_ASSIGNED_BY"
           }
         }
       },
@@ -1661,11 +2445,6 @@
         "xml" : {
           "name" : "response"
         }
-      },
-      "inline_response_401" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/error"
-        } ]
       },
       "inline_response_200_2" : {
         "type" : "object",
@@ -1876,43 +2655,6 @@
           "name" : "response"
         }
       },
-      "inline_response_200_7" : {
-        "properties" : {
-          "result" : {
-            "type" : "boolean"
-          },
-          "time" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/time"
-            } ]
-          }
-        }
-      },
-      "inline_response_200_8" : {
-        "properties" : {
-          "result" : {
-            "type" : "integer",
-            "example" : 1
-          },
-          "time" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/time"
-            } ]
-          }
-        },
-        "xml" : {
-          "name" : "response"
-        }
-      },
-      "inline_response_400" : {
-        "example" : {
-          "error" : "ERROR_CORE",
-          "error_description" : "access_denied"
-        },
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/error"
-        } ]
-      },
       "body_4" : {
         "allOf" : [ {
           "type" : "object",
@@ -1948,9 +2690,42 @@
           "required" : [ "ID" ]
         } ]
       },
+      "inline_response_200_7" : {
+        "properties" : {
+          "result" : {
+            "type" : "boolean"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "inline_response_200_8" : {
+        "properties" : {
+          "result" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_400" : {
+        "example" : {
+          "error" : "ERROR_CORE",
+          "error_description" : "access_denied"
+        },
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/error"
+        } ]
+      },
       "body_6" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/call_ext_register_req"
+          "$ref" : "#/components/schemas/ext_call_register_req"
         }, {
           "required" : [ "PHONE_NUMBER", "TYPE", "USER_ID", "USER_PHONE_INNER" ]
         } ]
@@ -1958,20 +2733,16 @@
       "inline_response_200_9" : {
         "properties" : {
           "result" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/call_ext_register_res"
-            } ]
+            "$ref" : "#/components/schemas/ext_call_register_res"
           },
           "time" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/time"
-            } ]
+            "$ref" : "#/components/schemas/time"
           }
         }
       },
       "body_7" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/call_ext_finish_req"
+          "$ref" : "#/components/schemas/ext_call_finish_req"
         }, {
           "required" : [ "PHONE_NUMBER", "TYPE", "USER_ID", "USER_PHONE_INNER" ]
         } ]
@@ -1979,9 +2750,99 @@
       "inline_response_200_10" : {
         "properties" : {
           "result" : {
-            "allOf" : [ {
-              "$ref" : "#/components/schemas/call_ext_finish_res"
+            "$ref" : "#/components/schemas/ext_call_finish_res"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "inline_response_200_11" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/crm_entity"
+            }
+          }
+        }
+      },
+      "inline_response_200_12" : {
+        "properties" : {
+          "result" : {
+            "oneOf" : [ {
+              "type" : "object",
+              "properties" : {
+                "FILE_ID" : {
+                  "type" : "integer"
+                }
+              }
+            }, {
+              "type" : "object",
+              "properties" : {
+                "uploadUrl" : {
+                  "type" : "string"
+                }
+              }
             } ]
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "telephony.call.attachTranscription.transport_MESSAGES" : {
+        "type" : "object",
+        "properties" : {
+          "SIDE" : {
+            "type" : "string",
+            "description" : "Участник разговора. (Варианты значения User - пользователь портала, Client - внешний участник)"
+          },
+          "START_TIME" : {
+            "type" : "integer",
+            "description" : "Время начала фразы в секундах, считая от начала разговора"
+          },
+          "STOP_TIME" : {
+            "type" : "integer",
+            "description" : "Время окончания фразы в секундах, считая от начала разговора"
+          },
+          "MESSAGE" : {
+            "type" : "string",
+            "description" : "Текст фразы"
+          }
+        }
+      },
+      "body_8" : {
+        "required" : [ "CALL_ID", "MESSAGES" ],
+        "type" : "object",
+        "properties" : {
+          "CALL_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор звонка"
+          },
+          "COST" : {
+            "type" : "number",
+            "description" : "Валюта стоимости расшифровки",
+            "format" : "float"
+          },
+          "COST_CURRENCY" : {
+            "type" : "string",
+            "description" : "Валюта стоимости расшифровки"
+          },
+          "MESSAGES" : {
+            "type" : "array",
+            "description" : "расшифровка звонка. Массив объектов типа TranscriptMessage.",
+            "items" : {
+              "$ref" : "telephony.call.attachTranscription.transport_MESSAGES"
+            }
+          }
+        }
+      },
+      "inline_response_200_13" : {
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/inline_response_200_13_result"
           },
           "time" : {
             "allOf" : [ {
@@ -1990,7 +2851,132 @@
           }
         }
       },
-      "call_ext_register_res_CRM_CREATED_ENTITIES" : {
+      "inline_response_200_14" : {
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/inline_response_200_13_result"
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_200_15" : {
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_15_result"
+            }
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "inline_response_200_16" : {
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_15_result"
+            }
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_200_17" : {
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/inline_response_200_17_result"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "inline_response_200_18" : {
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/inline_response_200_17_result"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_200_19" : {
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/inline_response_200_19_result"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "inline_response_200_20" : {
+        "properties" : {
+          "result" : {
+            "$ref" : "#/components/schemas/inline_response_200_19_result"
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "inline_response_200_21" : {
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "example" : {
+              "result" : [ ]
+            },
+            "items" : {
+              "type" : "object"
+            }
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        }
+      },
+      "inline_response_200_22" : {
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "example" : {
+              "result" : [ ]
+            },
+            "items" : {
+              "type" : "object"
+            }
+          },
+          "time" : {
+            "$ref" : "#/components/schemas/time"
+          }
+        },
+        "xml" : {
+          "name" : "response"
+        }
+      },
+      "ext_call_register_res_CRM_CREATED_ENTITIES" : {
         "type" : "object",
         "properties" : {
           "ENTITY_TYPE" : {
@@ -2000,6 +2986,75 @@
           "ENTITY_ID" : {
             "type" : "integer",
             "description" : "идентификатор созданной сущности"
+          }
+        }
+      },
+      "crm_entity_ASSIGNED_BY" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "integer",
+            "description" : "ID"
+          },
+          "TIMEMAN_STATUS" : {
+            "type" : "string",
+            "description" : "Информация о текущем рабочем дне пользователя"
+          },
+          "USER_PHONE_INNER" : {
+            "type" : "string",
+            "description" : "Внутренний телефон"
+          },
+          "WORK_PHONE" : {
+            "type" : "string",
+            "description" : "Телефон компании"
+          },
+          "PERSONAL_PHONE" : {
+            "type" : "string",
+            "description" : "Личный телефон"
+          },
+          "PERSONAL_MOBILE" : {
+            "type" : "string",
+            "description" : "Мобильный телефон"
+          }
+        }
+      },
+      "inline_response_200_13_result" : {
+        "type" : "object",
+        "properties" : {
+          "TRANSCRIPT_ID" : {
+            "type" : "string",
+            "example" : "4"
+          }
+        }
+      },
+      "inline_response_200_15_result" : {
+        "type" : "object",
+        "properties" : {
+          "NUMBER" : {
+            "type" : "string",
+            "example" : "79110000001"
+          },
+          "NAME" : {
+            "type" : "string",
+            "example" : "ext_line_1"
+          }
+        }
+      },
+      "inline_response_200_17_result" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "integer",
+            "example" : 2
+          }
+        }
+      },
+      "inline_response_200_19_result" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "example" : "2"
           }
         }
       }
@@ -2020,6 +3075,79 @@
           }
         }
       },
+      "200_result_transcript" : {
+        "description" : "Результат запроса",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_13"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_14"
+            }
+          }
+        }
+      },
+      "200_result_upload" : {
+        "description" : "Результат запроса",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_12"
+            },
+            "examples" : {
+              "example1" : {
+                "summary" : "ID - файла",
+                "value" : {
+                  "result" : {
+                    "FILE_ID" : 55
+                  }
+                }
+              },
+              "example2" : {
+                "summary" : "uploadUrl",
+                "value" : {
+                  "result" : {
+                    "uploadUrl" : "https://b24-eyn16e.bitrix24.ru/rest/upload.json?auth=8abdc3&token=telephony%7CY"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "200_result_array" : {
+        "description" : "Результат запроса",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_21"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_22"
+            }
+          }
+        }
+      },
+      "200_result_array_line" : {
+        "description" : "Результат запроса",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_15"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_16"
+            }
+          }
+        }
+      },
       "200_result_int" : {
         "description" : "Результат запроса",
         "content" : {
@@ -2031,6 +3159,36 @@
           "application/xml" : {
             "schema" : {
               "$ref" : "#/components/schemas/inline_response_200_6"
+            }
+          }
+        }
+      },
+      "200_result_id" : {
+        "description" : "Результат запроса",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_17"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_18"
+            }
+          }
+        }
+      },
+      "200_result_id_str" : {
+        "description" : "Результат запроса",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_19"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_200_20"
             }
           }
         }
@@ -2055,7 +3213,7 @@
         "content" : {
           "application/json" : {
             "schema" : {
-              "$ref" : "#/components/schemas/inline_response_401"
+              "$ref" : "#/components/schemas/error"
             },
             "examples" : {
               "expired_token" : {
@@ -2076,7 +3234,7 @@
           },
           "application/xml" : {
             "schema" : {
-              "$ref" : "#/components/schemas/inline_response_401"
+              "$ref" : "#/components/schemas/error"
             },
             "examples" : {
               "expired_token" : {
@@ -2117,6 +3275,17 @@
           "type" : "string",
           "enum" : [ "json", "xml" ]
         }
+      },
+      "param_call_id" : {
+        "name" : "CALL_ID",
+        "in" : "query",
+        "description" : "Идентификатор звонка (см. метод telephony.externalcall.register)",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string"
+        }
       }
     },
     "examples" : {
@@ -2132,6 +3301,129 @@
         "value" : {
           "error" : "invalid_token",
           "error_description" : "Unable to get application by token"
+        }
+      },
+      "ext_call_register_example1" : {
+        "description" : "Результат для отстутствующего контакта",
+        "value" : {
+          "result" : {
+            "CALL_ID" : "externalCall.29fe5ebfb1b8c2bfaf1a1712aeb48359.1701221152",
+            "CRM_CREATED_ENTITIES" : [ {
+              "ENTITY_TYPE" : "CONTACT",
+              "ENTITY_ID" : 6
+            }, {
+              "ENTITY_TYPE" : "DEAL",
+              "ENTITY_ID" : 4
+            } ],
+            "CRM_ENTITY_TYPE" : "CONTACT",
+            "CRM_ENTITY_ID" : 6
+          },
+          "time" : {
+            "start" : 1.601662202764426E9,
+            "finish" : 1.601662203736745E9,
+            "duration" : 0.9723191261291504,
+            "processing" : 0.9394760131835938,
+            "date_start" : "2020-10-02T20:10:02+02:00",
+            "date_finish" : "2020-10-02T20:10:03+02:00"
+          }
+        }
+      },
+      "ext_call_register_example2" : {
+        "description" : "Результат для существующего контакта",
+        "value" : {
+          "result" : {
+            "CALL_ID" : "externalCall.29fe5ebfb1b8c2bfaf1a1712aeb48359.1701221153",
+            "CRM_CREATED_ENTITIES" : [ ],
+            "CRM_ENTITY_TYPE" : "CONTACT",
+            "CRM_ENTITY_ID" : 4,
+            "LEAD_CREATION_ERROR" : ""
+          },
+          "time" : {
+            "start" : 1.601662510764426E9,
+            "finish" : 1.601662511736745E9,
+            "duration" : 0.9723191261291504,
+            "processing" : 0.9394760131835938,
+            "date_start" : "2020-10-02T20:15:10+02:00",
+            "date_finish" : "2020-10-02T20:15:11+02:00"
+          }
+        }
+      },
+      "ext_call_finish_example1" : {
+        "value" : {
+          "result" : {
+            "CALL_ID" : "externalCall.29fe5ebfb1b8c2bfaf1a1712aeb48359.1701221152",
+            "PORTAL_USER_ID" : 1,
+            "PHONE_NUMBER" : "+79997770220",
+            "PORTAL_NUMBER" : "REST_APP:6",
+            "INCOMING" : "2",
+            "CALL_DURATION" : 180,
+            "CALL_START_DATE" : { },
+            "CALL_STATUS" : 1,
+            "CALL_VOTE" : 5,
+            "COST" : 5.12,
+            "COST_CURRENCY" : "Российский рубль",
+            "CALL_FAILED_CODE" : "succes",
+            "CALL_FAILED_REASON" : "",
+            "REST_APP_ID" : "6",
+            "REST_APP_NAME" : "Локальное приложение",
+            "CRM_ACTIVITY_ID" : 10,
+            "COMMENT" : "null",
+            "CRM_ENTITY_TYPE" : "CONTACT",
+            "CRM_ENTITY_ID" : 6,
+            "ID" : 10
+          },
+          "time" : {
+            "start" : 1.601662202764426E9,
+            "finish" : 1.601662203736745E9,
+            "duration" : 0.9723191261291504,
+            "processing" : 0.9394760131835938,
+            "date_start" : "2020-10-02T20:10:02+02:00",
+            "date_finish" : "2020-10-02T20:10:03+02:00"
+          }
+        }
+      },
+      "ext_call_finish_example2" : {
+        "value" : {
+          "result" : {
+            "CALL_ID" : "externalCall.29fe5ebfb1b8c2bfaf1a1712aeb48359.1701221153",
+            "PORTAL_USER_ID" : 1,
+            "PHONE_NUMBER" : "+79997770220",
+            "PORTAL_NUMBER" : "REST_APP:6",
+            "INCOMING" : "2",
+            "CALL_DURATION" : 180,
+            "CALL_START_DATE" : { },
+            "CALL_STATUS" : 1,
+            "CALL_VOTE" : 5,
+            "COST" : 5.12,
+            "COST_CURRENCY" : "Российский рубль",
+            "CALL_FAILED_CODE" : "succes",
+            "CALL_FAILED_REASON" : "",
+            "REST_APP_ID" : "6",
+            "REST_APP_NAME" : "Локальное приложение",
+            "CRM_ACTIVITY_ID" : 4,
+            "COMMENT" : "null",
+            "CRM_ENTITY_TYPE" : "CONTACT",
+            "CRM_ENTITY_ID" : 4,
+            "ID" : 4
+          },
+          "time" : {
+            "start" : 1.601662510764426E9,
+            "finish" : 1.601662511736745E9,
+            "duration" : 0.9723191261291504,
+            "processing" : 0.9394760131835938,
+            "date_start" : "2020-10-02T20:15:10+02:00",
+            "date_finish" : "2020-10-02T20:15:11+02:00"
+          }
+        }
+      },
+      "time_call_ext_req" : {
+        "value" : {
+          "start" : 1.601662202764426E9,
+          "finish" : 1.601662203736745E9,
+          "duration" : 0.9723191261291504,
+          "processing" : 0.9394760131835938,
+          "date_start" : "2020-10-02T20:10:02+02:00",
+          "date_finish" : "2020-10-02T20:10:03+02:00"
         }
       }
     },
