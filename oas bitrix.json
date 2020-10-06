@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "OAS Bitrix",
-    "description" : "## Перевод в вид OAS3",
+    "description" : "## Перевод[*](https://dev.1c-bitrix.ru/rest_help/index.php)  в вид OAS3",
     "contact" : {
       "email" : "alek_pol@outlook.com"
     },
@@ -33,16 +33,19 @@
     "description" : "Работа с пользователями"
   }, {
     "name" : "Telephony",
-    "description" : "Телефония"
+    "description" : "Работа с телефонией (звонки)"
   }, {
     "name" : "Telephony-line",
-    "description" : "Телефония (управление линиями)"
+    "description" : "Работа с телефонией (управление линиями)"
+  }, {
+    "name" : "Voximplant",
+    "description" : "Возможности встроенной телефонии на базе VoxImplant"
   } ],
   "paths" : {
     "/user.fields.{transport}" : {
       "get" : {
         "tags" : [ "Users" ],
-        "summary" : "Список полей пользователя",
+        "summary" : "Вывести список полей пользователя",
         "description" : "### Получение списка названий полей пользователя.\nМетод отдаёт стандартный список полей, использование пользовательских полей не предусмотрено.\n",
         "parameters" : [ {
           "name" : "transport",
@@ -691,7 +694,7 @@
     "/telephony.externalcall.register.{transport}" : {
       "post" : {
         "tags" : [ "Telephony" ],
-        "summary" : "Регистрирует звонок в Битрикс24",
+        "summary" : "Регистрация звонка в Битрикс24",
         "description" : "### Метод регистрирует звонок в Битрикс24, для чего ищет в CRM соответствующий номеру объект. \n- Если находит, то добавляет звонок в привязке к найденному объекту. \n- Если не находит, то может автоматически создать лид.\n#### Одновременно с регистрацией звонка метод опционально может показать пользователю карточку звонка. Пользователь, которому показывается карточка, идентифицируется либо по __USER_ID__, либо по __USER_PHONE_INNER__ (поля помечены как обязательные, но фактически, нужно только одно из двух)\n#### Не нужно повторно вызывать этот метод для звонков, полученных на событии OnExternalCallStart. Эти звонки уже зарегистрированы в системе и для них надо вызывать только telephony.externalcall.finish в конце звонка.\n    Внимание! Повторный вызов telephony.externalcall.register с теми же параметрами, без закрытия предыдущего звонка методом telephony.externalcall.finish, выдает тот же CALL_ID в течение 30 минут.\n  Для создания дела \"звонок\" необходимо также вызывать метод telephony.externalcall.finish/\n",
         "parameters" : [ {
           "name" : "transport",
@@ -793,7 +796,7 @@
     "/telephony.externalcall.finish.{transport}" : {
       "post" : {
         "tags" : [ "Telephony" ],
-        "summary" : "Завершает звонок в Битрикс24",
+        "summary" : "Завершение звонка в Битрикс24",
         "description" : "### Метод завершает звонок, фиксирует его в статистике, скрывает у пользователя карточку звонка. \n#### Метод возвращает массив, аналогичный методу voximplant.statistic.get.\n",
         "parameters" : [ {
           "name" : "transport",
@@ -883,7 +886,7 @@
     "/telephony.externalcall.show.{transport}" : {
       "get" : {
         "tags" : [ "Telephony" ],
-        "summary" : "Показывает карточку звонка",
+        "summary" : "Показать карточку звонка",
         "description" : "### Метод показывает карточку звонка пользователю.\n",
         "parameters" : [ {
           "name" : "transport",
@@ -1077,7 +1080,7 @@
     "/telephony.externalCall.searchCrmEntities.{transport}" : {
       "get" : {
         "tags" : [ "Telephony" ],
-        "summary" : "Получить информацию о клиенте CRM",
+        "summary" : "Информация о клиенте CRM",
         "description" : "### Метод позволяет получить одним запросом по номеру телефона информацию о клиенте из CRM.\n#### Информация позволяет принять решение кому из сотрудников перенаправить входящий звонок на пользователя прямо в этот момент. Метод возвращает подходящий список CRM-объектов с сортировкой по внутренним приоритетам. Если за сущности связанные с номером отвечают разные сотрудники (за лид отвечает один сотрудник, за компанию - другой), то рекомендуется брать тот объект, который метод вернул первым в списке. Если интеграция предполагает собственную логику, то возможен выбор, так как отдаются все объекты.\n#### В списке объектов CRM сразу сообщается вся информация об ответственном сотруднике за каждый объект (чтобы не приходилось получать эти данных дополнительными запросами REST). Возвращаются все заданные у пользователя контактные телефоны: внутренний телефон сотрудника, мобильный, рабочий и т.д..\n#### Возвращается и статус рабочего дня сотрудника (если в Битрикс24 включен учет рабочего времени). Интеграция может проверить, находится ли сотрудник на рабочем месте (или у него перерыв), и либо перенаправить входящий звонок в очередь, либо направить звонок на мобильник сотрудника и т.д.\n#### Рекомендуется вызывать метод до вызова telephony.externalcall.register.\n",
         "parameters" : [ {
           "name" : "transport",
@@ -1146,7 +1149,7 @@
     "/telephony.externalCall.attachRecord.{transport}" : {
       "post" : {
         "tags" : [ "Telephony" ],
-        "summary" : "Прикрепить запись к завершенному звонку",
+        "summary" : "Прикрепление записи к завершенному звонку",
         "description" : "### Метод прикрепляет запись к завершенному звонку и к Делу звонка. \n  Должен вызываться после telephony.external.finish, если запись на момент вызова finish еще не готова) \n#### Запись прикрепляется только одна. Если вызвать метод несколько раз, то следующий вызов перетрет предыдущую запись.\n### Во время выполнения метода, портал осуществит одну попытку скачать запись по указанному адресу. В случае неудачи, метод вернет ошибку.\n    Так как возможность скачивания зависит от множества независящих от портала факторов, использование данного параметра не рекомендуется.\n",
         "parameters" : [ {
           "name" : "transport",
@@ -1276,7 +1279,7 @@
     "/telephony.call.attachTranscription.{transport}" : {
       "post" : {
         "tags" : [ "Telephony" ],
-        "summary" : "Добавить расшифровку записи к звонку",
+        "summary" : "Добавление расшифровки записи к звонку",
         "description" : "### Метод добавляет расшифровку записи к звонку.\n",
         "parameters" : [ {
           "name" : "transport",
@@ -1299,7 +1302,7 @@
               "example" : {
                 "CALL_ID" : "externalCall.9ea1a69",
                 "COST" : 3.11,
-                "COST_CURRENCY" : "Российский рубль",
+                "COST_CURRENCY" : "RUR",
                 "MESSAGES" : [ {
                   "SIDE" : "User",
                   "START_TIME" : 1,
@@ -1394,7 +1397,7 @@
     "/telephony.externalLine.get.{transport}" : {
       "get" : {
         "tags" : [ "Telephony-line" ],
-        "summary" : "Получить список внешних линий приложения",
+        "summary" : "Список внешних линий приложения",
         "description" : "### Метод позволяет получить список внешних линий приложения.\n",
         "parameters" : [ {
           "name" : "transport",
@@ -1471,7 +1474,7 @@
     "/telephony.externalLine.add.{transport}" : {
       "post" : {
         "tags" : [ "Telephony-line" ],
-        "summary" : "Добавить внешнюю линию",
+        "summary" : "Добавление внешней линии",
         "description" : "### Метод позволяет добавить внешнюю линию\n    После добавления, внешнюю линию можно указать при регистрации звонка, в поле LINE_NUMBER (см telephony.externalcall.register). \n",
         "parameters" : [ {
           "name" : "transport",
@@ -1589,7 +1592,7 @@
     "/telephony.externalLine.update.{transport}" : {
       "post" : {
         "tags" : [ "Telephony-line" ],
-        "summary" : "Изменить название внешней линииию",
+        "summary" : "Изменение названия внешней линии",
         "description" : "### Метод позволяет изменить название внешней линии\n",
         "parameters" : [ {
           "name" : "transport",
@@ -1707,7 +1710,7 @@
     "/telephony.externalLine.delete.{transport}" : {
       "post" : {
         "tags" : [ "Telephony-line" ],
-        "summary" : "Удалить внешнюю линию",
+        "summary" : "Удаление внешней линии",
         "description" : "### Метод позволяет удалить внешнюю линию\n",
         "parameters" : [ {
           "name" : "transport",
@@ -1805,6 +1808,122 @@
                     "description" : "Ошибка в токене",
                     "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/voximplant.statistic.get.{transport}" : {
+      "post" : {
+        "tags" : [ "Voximplant" ],
+        "summary" : "Список истории звонков",
+        "description" : "### Метод Возвращает список истории звонков:\n`Метод доступен обладателю права Статистика звонков - Просмотр в соответствии с его значением этого права` \n",
+        "parameters" : [ {
+          "name" : "transport",
+          "in" : "path",
+          "description" : "Формат выдачи результатов (json|xml)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "json", "xml" ]
+          }
+        } ],
+        "requestBody" : {
+          "description" : "## __Параметры:__\n- `FILTER:` - Поля для выборки\n- `SORT:` - Поле по которому производится сортировка\n  ### кроме полей:\n  + COMMENT\n  + RECORD_FILE_ID\n  + CALL_TYPE\n- `ORDER:` - Порядок сортировки (ASC/DESC)\n",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_9"
+              },
+              "examples" : {
+                "example_1" : {
+                  "value" : {
+                    "filter" : {
+                      "CALL_DURATION" : [ "180", "60" ],
+                      "CALL_TYPE" : "1"
+                    },
+                    "sort" : "CALL_VOTE",
+                    "order" : "ASC"
+                  }
+                },
+                "example_2" : {
+                  "value" : {
+                    "filter" : {
+                      "CRM_ENTITY_TYPE" : "CONTACT"
+                    },
+                    "sort" : "ID",
+                    "order" : "DESC"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_23"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Ошибка авторизации",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : {
+                      "error" : "expired_token",
+                      "error_description" : "The access token provided has expired"
+                    }
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : {
+                      "error" : "invalid_token",
+                      "error_description" : "Unable to get application by token"
+                    }
+                  }
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/error"
+                },
+                "examples" : {
+                  "expired_token" : {
+                    "description" : "Просрочен токен",
+                    "value" : "<response>\n  <error>expired_token</error>\n  <error_description>The access token provided has expired.</error_description>\n</response>"
+                  },
+                  "invalid_token" : {
+                    "description" : "Ошибка в токене",
+                    "value" : "<response>\n  <error>invalid_token</error>\n  <error_description>Unable to get application by token.</error_description>\n</response>"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Доступ запрещен",
+            "headers" : {
+              "status" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "example" : "403 Forbidden"
                 }
               }
             }
@@ -2295,7 +2414,7 @@
           },
           "COST_CURRENCY" : {
             "type" : "string",
-            "description" : "Валюта, в которой указана стоимость звонка. Список валют можно получить методом crm.currency.list."
+            "description" : "Валюта (RUR, USD, EUR), в которой указана стоимость звонка (см. метод crm.currency.list.)"
           },
           "STATUS_CODE" : {
             "type" : "string",
@@ -2329,6 +2448,70 @@
           "EXTERNAL_CALL_ID" : {
             "type" : "string"
           },
+          "PORTAL_USER_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор ответившего оператора (если это тип звонка 2 - Входящий) или идентификатор позвонившего оператора (если это тип звонка 1 - Исходящий)"
+          },
+          "PHONE_NUMBER" : {
+            "type" : "string",
+            "description" : "Номер, с которого звонит абонент (если это тип звонка 2 - Входящий) или номер, которому звонит оператор (1 - Исходящий)"
+          },
+          "PORTAL_NUMBER" : {
+            "type" : "string",
+            "description" : "Номер, на который поступил звонок (если это тип звонка 2 - Входящий) или номер, с которого был совершен звонок (1 - Исходящий)."
+          },
+          "INCOMING" : {
+            "type" : "string"
+          },
+          "CALL_DURATION" : {
+            "type" : "integer",
+            "description" : "Продолжительность звонка в секундах"
+          },
+          "CALL_START_DATE" : {
+            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}",
+            "type" : "string",
+            "description" : "Время инициализации звонка. При сортировке по этому полю нужно указывать дату в формате ISO-8601",
+            "format" : "date-time"
+          },
+          "CALL_STATUS" : {
+            "type" : "integer"
+          },
+          "CALL_VOTE" : {
+            "type" : "integer",
+            "description" : "Оценка звонка используется только для внутренней телефонии (По умолчанию - 0)"
+          },
+          "COST" : {
+            "type" : "integer",
+            "description" : "Стоимость звонка"
+          },
+          "COST_CURRENCY" : {
+            "type" : "string",
+            "description" : "Валюта звонка (RUR, USD, EUR)"
+          },
+          "CALL_FAILED_CODE" : {
+            "type" : "string",
+            "description" : "Код вызова см. [таблицу кодов вызова](\"https://dev.1c-bitrix.ru/rest_help/scope_telephony/codes_and_types.php#call_failed_code\")."
+          },
+          "CALL_FAILED_REASON" : {
+            "type" : "string",
+            "description" : "Текстовое описание кода вызова (латиница)"
+          },
+          "REST_APP_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор приложения интеграции внешней телефонии"
+          },
+          "REST_APP_NAME" : {
+            "type" : "string",
+            "description" : "Название приложения интеграции внешней телефонии"
+          },
+          "CRM_ACTIVITY_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор дела CRM, созданного на основании звонка"
+          },
+          "COMMENT" : {
+            "type" : "string",
+            "description" : "Комментарий к звонку"
+          },
           "CRM_ENTITY_TYPE" : {
             "type" : "string",
             "description" : "Тип объекта CRM, к которому прикреплено дело (например LEAD)"
@@ -2339,7 +2522,142 @@
           },
           "ID" : {
             "type" : "integer",
-            "description" : "Идентификатор звонка"
+            "description" : "Идентификатор звонка (для внутренних целей)"
+          }
+        }
+      },
+      "voximplant_stat" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "Идентификатор звонка (для внутренних целей)",
+            "example" : "4"
+          },
+          "PORTAL_USER_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор ответившего оператора (если это тип звонка 2 - Входящий) или идентификатор позвонившего оператора (если это тип звонка 1 - Исходящий)",
+            "example" : "1"
+          },
+          "PORTAL_NUMBER" : {
+            "type" : "string",
+            "description" : "Номер, на который поступил звонок (если это тип звонка 2 - Входящий) или номер, с которого был совершен звонок (1 - Исходящий).",
+            "example" : "REST_APP:6"
+          },
+          "PHONE_NUMBER" : {
+            "type" : "string",
+            "description" : "Номер, с которого звонит абонент (если это тип звонка 2 - Входящий) или номер, которому звонит оператор (1 - Исходящий)",
+            "example" : "+79990001122"
+          },
+          "CALL_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор звонка внутри Битрикс24",
+            "example" : "externalCall.d9a8a95eecfa4bfcadd922ac68bb7fa8.1601645100"
+          },
+          "EXTERNAL_CALL_ID" : {
+            "type" : "string"
+          },
+          "CALL_CATEGORY" : {
+            "type" : "string",
+            "example" : "external"
+          },
+          "CALL_DURATION" : {
+            "type" : "string",
+            "description" : "Продолжительность звонка в секундах",
+            "example" : "50"
+          },
+          "CALL_START_DATE" : {
+            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}",
+            "type" : "string",
+            "description" : "Время инициализации звонка. При сортировке по этому полю нужно указывать дату в формате ISO-8601",
+            "format" : "date-time",
+            "example" : "2020-10-02T16:25:00+03:00"
+          },
+          "CALL_RECORD_URL" : {
+            "type" : "string",
+            "description" : "URL файла с записью звонка"
+          },
+          "CALL_VOTE" : {
+            "type" : "string",
+            "description" : "Оценка звонка используется только для внутренней телефонии (По умолчанию - 0)",
+            "example" : "4"
+          },
+          "COST" : {
+            "type" : "string",
+            "description" : "Стоимость звонка",
+            "example" : "1.0000"
+          },
+          "COST_CURRENCY" : {
+            "type" : "string",
+            "description" : "Валюта звонка (RUR, USD, EUR)",
+            "example" : "RUR"
+          },
+          "CALL_FAILED_CODE" : {
+            "type" : "string",
+            "description" : "Код вызова см. [таблицу кодов вызова](\"https://dev.1c-bitrix.ru/rest_help/scope_telephony/codes_and_types.php#call_failed_code\")",
+            "example" : "success"
+          },
+          "CALL_FAILED_REASON" : {
+            "type" : "string",
+            "description" : "Текстовое описание кода вызова (латиница)"
+          },
+          "CRM_ENTITY_TYPE" : {
+            "type" : "string",
+            "description" : "Тип объекта CRM, к которому прикреплено дело",
+            "example" : "CONTACT"
+          },
+          "CRM_ENTITY_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор объекта CRM, к которому прикреплено дело",
+            "example" : "4"
+          },
+          "CRM_ACTIVITY_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор дела CRM, созданного на основании звонка",
+            "example" : "4"
+          },
+          "REST_APP_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор приложения интеграции внешней телефонии",
+            "example" : "6"
+          },
+          "REST_APP_NAME" : {
+            "type" : "string",
+            "description" : "Название приложения интеграции внешней телефонии",
+            "example" : "Локальное приложение"
+          },
+          "TRANSCRIPT_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор расшифровки звонка",
+            "example" : "6"
+          },
+          "TRANSCRIPT_PENDING" : {
+            "type" : "string",
+            "description" : "Признак того, что расшифровка будет получена позднее [Y\\N]",
+            "example" : "N"
+          },
+          "SESSION_ID" : {
+            "type" : "string",
+            "description" : "Идентификатор сессии звонка на стороне Voximplant"
+          },
+          "REDIAL_ATTEMPT" : {
+            "type" : "integer",
+            "description" : "Номер попытки дозвониться (для обратных звонков)"
+          },
+          "COMMENT" : {
+            "type" : "string",
+            "description" : "Комментарий к звонку",
+            "example" : ""
+          },
+          "RECORD_FILE_ID" : {
+            "type" : "integer",
+            "description" : "Идентификатор файла с записью звонка",
+            "example" : 50
+          },
+          "CALL_TYPE" : {
+            "type" : "string",
+            "description" : "Тип вызова (см. [описание типов звонка](\"https://dev.1c-bitrix.ru/rest_help/scope_telephony/codes_and_types.php#call_type\"))",
+            "example" : "2"
           }
         }
       },
@@ -2823,7 +3141,7 @@
           },
           "COST" : {
             "type" : "number",
-            "description" : "Валюта стоимости расшифровки",
+            "description" : "Стоимость расшифровки",
             "format" : "float"
           },
           "COST_CURRENCY" : {
@@ -2974,6 +3292,55 @@
         },
         "xml" : {
           "name" : "response"
+        }
+      },
+      "body_9" : {
+        "type" : "object",
+        "properties" : {
+          "filter" : {
+            "$ref" : "#/components/schemas/voximplant_stat"
+          },
+          "sort" : {
+            "type" : "string",
+            "description" : "sort",
+            "enum" : [ "ID", "PORTAL_USER_ID", "PORTAL_NUMBER", "PHONE_NUMBER", "CALL_ID", "EXTERNAL_CALL_ID", "CALL_CATEGORY", "CALL_DURATION", "CALL_START_DATE", "CALL_RECORD_URL", "CALL_VOTE", "COST", "COST_CURRENCY", "CALL_FAILED_CODE", "CALL_FAILED_REASON", "CRM_ENTITY_TYPE", "CRM_ENTITY_ID", "CRM_ACTIVITY_ID", "REST_APP_ID", "REST_APP_NAME", "TRANSCRIPT_ID", "TRANSCRIPT_PENDING", "SESSION_ID", "REDIAL_ATTEMPT" ]
+          },
+          "order" : {
+            "type" : "string",
+            "enum" : [ "ASC", "DESC" ]
+          }
+        }
+      },
+      "inline_response_200_23" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "array",
+            "items" : {
+              "allOf" : [ {
+                "type" : "object",
+                "properties" : {
+                  "ID" : {
+                    "type" : "string",
+                    "description" : "ID",
+                    "example" : "1"
+                  }
+                }
+              }, {
+                "$ref" : "#/components/schemas/voximplant_stat"
+              } ]
+            }
+          },
+          "total" : {
+            "type" : "integer",
+            "description" : "Количество найденных пользователей",
+            "example" : 1
+          },
+          "time" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/time"
+            } ]
+          }
         }
       },
       "ext_call_register_res_CRM_CREATED_ENTITIES" : {
@@ -3361,7 +3728,7 @@
             "CALL_STATUS" : 1,
             "CALL_VOTE" : 5,
             "COST" : 5.12,
-            "COST_CURRENCY" : "Российский рубль",
+            "COST_CURRENCY" : "RUR",
             "CALL_FAILED_CODE" : "succes",
             "CALL_FAILED_REASON" : "",
             "REST_APP_ID" : "6",
@@ -3395,7 +3762,7 @@
             "CALL_STATUS" : 1,
             "CALL_VOTE" : 5,
             "COST" : 5.12,
-            "COST_CURRENCY" : "Российский рубль",
+            "COST_CURRENCY" : "RUR",
             "CALL_FAILED_CODE" : "succes",
             "CALL_FAILED_REASON" : "",
             "REST_APP_ID" : "6",
