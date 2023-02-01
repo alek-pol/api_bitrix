@@ -2729,6 +2729,15 @@
             "type" : "string",
             "format" : "date-time",
             "example" : "2020-09-30T20:20:09+03:00"
+          },
+          "operating_reset_at" : {
+            "type" : "integer",
+            "example" : 1675256534
+          },
+          "operating" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 0.6170840263366699
           }
         }
       },
