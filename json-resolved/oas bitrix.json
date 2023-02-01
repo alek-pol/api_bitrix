@@ -1946,15 +1946,15 @@
             "description" : "ID",
             "example" : "ID"
           },
+          "XML_ID" : {
+            "type" : "string",
+            "description" : "Внешний код",
+            "example" : "Внешний код"
+          },
           "ACTIVE" : {
             "type" : "string",
             "description" : "Активность",
             "example" : "Активность"
-          },
-          "EMAIL" : {
-            "type" : "string",
-            "description" : "E-Mail",
-            "example" : "E-Mail"
           },
           "NAME" : {
             "type" : "string",
@@ -1970,6 +1970,46 @@
             "type" : "string",
             "description" : "Отчество",
             "example" : "Отчество"
+          },
+          "EMAIL" : {
+            "type" : "string",
+            "description" : "E-Mail",
+            "example" : "E-Mail"
+          },
+          "LAST_LOGIN" : {
+            "type" : "string",
+            "description" : "Последняя авторизация",
+            "example" : "Последняя авторизация"
+          },
+          "DATE_REGISTER" : {
+            "type" : "string",
+            "description" : "Дата регистрации",
+            "example" : "Дата регистрации"
+          },
+          "TIME_ZONE" : {
+            "type" : "string",
+            "description" : "TIME_ZONE",
+            "example" : "TIME_ZONE"
+          },
+          "IS_ONLINE" : {
+            "type" : "string",
+            "description" : "IS_ONLINE",
+            "example" : "IS_ONLINE"
+          },
+          "TIME_ZONE_OFFSET" : {
+            "type" : "string",
+            "description" : "TIME_ZONE_OFFSET",
+            "example" : "TIME_ZONE_OFFSET"
+          },
+          "TIMESTAMP_X" : {
+            "type" : "string",
+            "description" : "TIMESTAMP_X",
+            "example" : "TIMESTAMP_X"
+          },
+          "LAST_ACTIVITY_DATE" : {
+            "type" : "string",
+            "description" : "LAST_ACTIVITY_DATE",
+            "example" : "LAST_ACTIVITY_DATE"
           },
           "PERSONAL_GENDER" : {
             "type" : "string",
@@ -2046,6 +2086,21 @@
             "description" : "Страна",
             "example" : "Страна"
           },
+          "PERSONAL_MAILBOX" : {
+            "type" : "string",
+            "description" : "Почтовый ящик",
+            "example" : "Почтовый ящик"
+          },
+          "PERSONAL_NOTES" : {
+            "type" : "string",
+            "description" : "Дополнительные заметки",
+            "example" : "Дополнительные заметки"
+          },
+          "WORK_PHONE" : {
+            "type" : "string",
+            "description" : "Телефон компании",
+            "example" : "Телефон компании"
+          },
           "WORK_COMPANY" : {
             "type" : "string",
             "description" : "Компания",
@@ -2056,10 +2111,90 @@
             "description" : "Должность",
             "example" : "Должность"
           },
-          "WORK_PHONE" : {
+          "WORK_DEPARTMENT" : {
             "type" : "string",
-            "description" : "Телефон компании",
-            "example" : "Телефон компании"
+            "description" : "Отдел",
+            "example" : "Отдел"
+          },
+          "WORK_WWW" : {
+            "type" : "string",
+            "description" : "Сайт компании",
+            "example" : "Сайт компании"
+          },
+          "WORK_FAX" : {
+            "type" : "string",
+            "description" : "WORK_FAX",
+            "example" : "WORK_FAX"
+          },
+          "WORK_PAGER" : {
+            "type" : "string",
+            "description" : "WORK_PAGER",
+            "example" : "WORK_PAGER"
+          },
+          "WORK_STREET" : {
+            "type" : "string",
+            "description" : "WORK_STREET",
+            "example" : "WORK_STREET"
+          },
+          "WORK_MAILBOX" : {
+            "type" : "string",
+            "description" : "WORK_MAILBOX",
+            "example" : "WORK_MAILBOX"
+          },
+          "WORK_CITY" : {
+            "type" : "string",
+            "description" : "Город работы",
+            "example" : "Город работы"
+          },
+          "WORK_STATE" : {
+            "type" : "string",
+            "description" : "WORK_STATE",
+            "example" : "WORK_STATE"
+          },
+          "WORK_ZIP" : {
+            "type" : "string",
+            "description" : "WORK_ZIP",
+            "example" : "WORK_ZIP"
+          },
+          "WORK_COUNTRY" : {
+            "type" : "string",
+            "description" : "WORK_COUNTRY",
+            "example" : "WORK_COUNTRY"
+          },
+          "WORK_PROFILE" : {
+            "type" : "string",
+            "description" : "WORK_PROFILE",
+            "example" : "WORK_PROFILE"
+          },
+          "WORK_LOGO" : {
+            "type" : "string",
+            "description" : "WORK_LOGO",
+            "example" : "WORK_LOGO"
+          },
+          "WORK_NOTES" : {
+            "type" : "string",
+            "description" : "WORK_NOTES",
+            "example" : "WORK_NOTES"
+          },
+          "UF_SKYPE_LINK" : {
+            "type" : "string",
+            "description" : "Ссылка на чат в Skype",
+            "example" : "Ссылка на чат в Skype"
+          },
+          "UF_ZOOM" : {
+            "type" : "string",
+            "description" : "Zoom",
+            "example" : "Zoom"
+          },
+          "UF_EMPLOYMENT_DATE" : {
+            "type" : "string",
+            "description" : "Дата принятия на работу",
+            "example" : "Дата принятия на работу"
+          },
+          "UF_TIMEMAN" : {
+            "type" : "string",
+            "description" : "Учет рабочего времени",
+            "example" : "Учет рабочего времени"
           },
           "UF_DEPARTMENT" : {
             "type" : "string",
@@ -2103,8 +2238,8 @@
           },
           "UF_SKYPE" : {
             "type" : "string",
-            "description" : "Логин Skype",
-            "example" : "Логин Skype"
+            "description" : "Skype",
+            "example" : "Skype"
           },
           "UF_DISTRICT" : {
             "type" : "string",
