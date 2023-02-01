@@ -1971,6 +1971,11 @@
             "description" : "Отчество",
             "example" : "Отчество"
           },
+          "TITLE" : {
+            "type" : "string",
+            "description" : "Список пользователей",
+            "example" : "Список пользователей"
+          },
           "EMAIL" : {
             "type" : "string",
             "description" : "E-Mail",
