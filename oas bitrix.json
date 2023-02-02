@@ -9,19 +9,32 @@
     "version" : "1.0.0"
   },
   "servers" : [ {
-    "url" : "https://{domen}.bitrix24.ru/rest",
+    "url" : "https://{domain}/rest/",
     "variables" : {
-      "domen" : {
-        "description" : "Название домена",
-        "default" : "b24-"
+      "domain" : {
+        "description" : "Домен",
+        "default" : "b24-example.ru"
       }
     }
   }, {
-    "url" : "https://{domen}/rest/",
+    "url" : "https://{subdomain}.bitrix24.ru/rest",
     "variables" : {
-      "domen" : {
-        "description" : "Название домена",
-        "default" : "b24-"
+      "subdomain" : {
+        "description" : "Поддомен",
+        "default" : "b24-example"
+      }
+    }
+  }, {
+    "url" : "https://{subdomain}.bitrix24.ru/rest/1/{token}",
+    "description" : "без авторизации (через вебхук для вызова rest api)",
+    "variables" : {
+      "subdomain" : {
+        "description" : "Поддомен",
+        "default" : "b24-example"
+      },
+      "token" : {
+        "description" : "Токен",
+        "default" : "111a"
       }
     }
   } ],
@@ -218,7 +231,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body"
+                "$ref" : "#/components/schemas/user_get_transport_body"
               },
               "examples" : {
                 "example_1" : {
@@ -341,7 +354,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_1"
+                "$ref" : "#/components/schemas/user_search_transport_body"
               },
               "examples" : {
                 "example_1" : {
@@ -459,12 +472,12 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_2"
+                "$ref" : "#/components/schemas/user_add_transport_body"
               }
             },
             "application/xml" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_3"
+                "$ref" : "#/components/schemas/user_add_transport_body_1"
               }
             }
           },
@@ -502,7 +515,7 @@
                     }
                   },
                   "access_denied" : {
-                    "description" : "Неправильный запрос",
+                    "description" : "Некорректный тип доступа",
                     "value" : {
                       "error" : "ERROR_CORE",
                       "error_description" : "access_denied"
@@ -520,7 +533,7 @@
                     "value" : "<response>\n  <error>ERROR_CORE</error>\n  <error_description>wrong_email</error_description>\n</response>\n"
                   },
                   "access_denied" : {
-                    "description" : "Неправильный запрос",
+                    "description" : "Некорректный тип доступа",
                     "value" : "<response>\n  <error>ERROR_CORE</error>\n  <error_description>access_denied</error_description>\n</response>\n"
                   }
                 }
@@ -592,12 +605,12 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_4"
+                "$ref" : "#/components/schemas/user_update_transport_body"
               }
             },
             "application/xml" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_5"
+                "$ref" : "#/components/schemas/user_update_transport_body_1"
               }
             }
           },
@@ -712,7 +725,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_6"
+                "$ref" : "#/components/schemas/telephony_externalcall_register_transport_body"
               },
               "examples" : {
                 "example_1" : {
@@ -740,9 +753,11 @@
                 },
                 "examples" : {
                   "example_1" : {
+                    "value" : null,
                     "$ref" : "#/components/examples/ext_call_register_example1"
                   },
                   "example_2" : {
+                    "value" : null,
                     "$ref" : "#/components/examples/ext_call_register_example2"
                   }
                 }
@@ -814,7 +829,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_7"
+                "$ref" : "#/components/schemas/telephony_externalcall_finish_transport_body"
               }
             }
           },
@@ -830,9 +845,11 @@
                 },
                 "examples" : {
                   "example_1" : {
+                    "value" : null,
                     "$ref" : "#/components/examples/ext_call_finish_example1"
                   },
                   "example_2" : {
+                    "value" : null,
                     "$ref" : "#/components/examples/ext_call_finish_example2"
                   }
                 }
@@ -1297,7 +1314,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_8"
+                "$ref" : "#/components/schemas/telephony_call_attachTranscription_transport_body"
               },
               "example" : {
                 "CALL_ID" : "externalCall.9ea1a69",
@@ -1837,7 +1854,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_9"
+                "$ref" : "#/components/schemas/voximplant_statistic_get_transport_body"
               },
               "examples" : {
                 "example_1" : {
@@ -1942,15 +1959,15 @@
             "description" : "ID",
             "example" : "ID"
           },
+          "XML_ID" : {
+            "type" : "string",
+            "description" : "Внешний код",
+            "example" : "Внешний код"
+          },
           "ACTIVE" : {
             "type" : "string",
             "description" : "Активность",
             "example" : "Активность"
-          },
-          "EMAIL" : {
-            "type" : "string",
-            "description" : "E-Mail",
-            "example" : "E-Mail"
           },
           "NAME" : {
             "type" : "string",
@@ -1966,6 +1983,51 @@
             "type" : "string",
             "description" : "Отчество",
             "example" : "Отчество"
+          },
+          "TITLE" : {
+            "type" : "string",
+            "description" : "Список пользователей",
+            "example" : "Список пользователей"
+          },
+          "EMAIL" : {
+            "type" : "string",
+            "description" : "E-Mail",
+            "example" : "E-Mail"
+          },
+          "LAST_LOGIN" : {
+            "type" : "string",
+            "description" : "Последняя авторизация",
+            "example" : "Последняя авторизация"
+          },
+          "DATE_REGISTER" : {
+            "type" : "string",
+            "description" : "Дата регистрации",
+            "example" : "Дата регистрации"
+          },
+          "TIME_ZONE" : {
+            "type" : "string",
+            "description" : "TIME_ZONE",
+            "example" : "TIME_ZONE"
+          },
+          "IS_ONLINE" : {
+            "type" : "string",
+            "description" : "IS_ONLINE",
+            "example" : "IS_ONLINE"
+          },
+          "TIME_ZONE_OFFSET" : {
+            "type" : "string",
+            "description" : "TIME_ZONE_OFFSET",
+            "example" : "TIME_ZONE_OFFSET"
+          },
+          "TIMESTAMP_X" : {
+            "type" : "string",
+            "description" : "TIMESTAMP_X",
+            "example" : "TIMESTAMP_X"
+          },
+          "LAST_ACTIVITY_DATE" : {
+            "type" : "string",
+            "description" : "LAST_ACTIVITY_DATE",
+            "example" : "LAST_ACTIVITY_DATE"
           },
           "PERSONAL_GENDER" : {
             "type" : "string",
@@ -2042,6 +2104,21 @@
             "description" : "Страна",
             "example" : "Страна"
           },
+          "PERSONAL_MAILBOX" : {
+            "type" : "string",
+            "description" : "Почтовый ящик",
+            "example" : "Почтовый ящик"
+          },
+          "PERSONAL_NOTES" : {
+            "type" : "string",
+            "description" : "Дополнительные заметки",
+            "example" : "Дополнительные заметки"
+          },
+          "WORK_PHONE" : {
+            "type" : "string",
+            "description" : "Телефон компании",
+            "example" : "Телефон компании"
+          },
           "WORK_COMPANY" : {
             "type" : "string",
             "description" : "Компания",
@@ -2052,10 +2129,90 @@
             "description" : "Должность",
             "example" : "Должность"
           },
-          "WORK_PHONE" : {
+          "WORK_DEPARTMENT" : {
             "type" : "string",
-            "description" : "Телефон компании",
-            "example" : "Телефон компании"
+            "description" : "Отдел",
+            "example" : "Отдел"
+          },
+          "WORK_WWW" : {
+            "type" : "string",
+            "description" : "Сайт компании",
+            "example" : "Сайт компании"
+          },
+          "WORK_FAX" : {
+            "type" : "string",
+            "description" : "WORK_FAX",
+            "example" : "WORK_FAX"
+          },
+          "WORK_PAGER" : {
+            "type" : "string",
+            "description" : "WORK_PAGER",
+            "example" : "WORK_PAGER"
+          },
+          "WORK_STREET" : {
+            "type" : "string",
+            "description" : "WORK_STREET",
+            "example" : "WORK_STREET"
+          },
+          "WORK_MAILBOX" : {
+            "type" : "string",
+            "description" : "WORK_MAILBOX",
+            "example" : "WORK_MAILBOX"
+          },
+          "WORK_CITY" : {
+            "type" : "string",
+            "description" : "Город работы",
+            "example" : "Город работы"
+          },
+          "WORK_STATE" : {
+            "type" : "string",
+            "description" : "WORK_STATE",
+            "example" : "WORK_STATE"
+          },
+          "WORK_ZIP" : {
+            "type" : "string",
+            "description" : "WORK_ZIP",
+            "example" : "WORK_ZIP"
+          },
+          "WORK_COUNTRY" : {
+            "type" : "string",
+            "description" : "WORK_COUNTRY",
+            "example" : "WORK_COUNTRY"
+          },
+          "WORK_PROFILE" : {
+            "type" : "string",
+            "description" : "WORK_PROFILE",
+            "example" : "WORK_PROFILE"
+          },
+          "WORK_LOGO" : {
+            "type" : "string",
+            "description" : "WORK_LOGO",
+            "example" : "WORK_LOGO"
+          },
+          "WORK_NOTES" : {
+            "type" : "string",
+            "description" : "WORK_NOTES",
+            "example" : "WORK_NOTES"
+          },
+          "UF_SKYPE_LINK" : {
+            "type" : "string",
+            "description" : "Ссылка на чат в Skype",
+            "example" : "Ссылка на чат в Skype"
+          },
+          "UF_ZOOM" : {
+            "type" : "string",
+            "description" : "Zoom",
+            "example" : "Zoom"
+          },
+          "UF_EMPLOYMENT_DATE" : {
+            "type" : "string",
+            "description" : "Дата принятия на работу",
+            "example" : "Дата принятия на работу"
+          },
+          "UF_TIMEMAN" : {
+            "type" : "string",
+            "description" : "Учет рабочего времени",
+            "example" : "Учет рабочего времени"
           },
           "UF_DEPARTMENT" : {
             "type" : "string",
@@ -2099,8 +2256,8 @@
           },
           "UF_SKYPE" : {
             "type" : "string",
-            "description" : "Логин Skype",
-            "example" : "Логин Skype"
+            "description" : "Skype",
+            "example" : "Skype"
           },
           "UF_DISTRICT" : {
             "type" : "string",
@@ -2122,15 +2279,15 @@
       "user" : {
         "type" : "object",
         "properties" : {
+          "XML_ID" : {
+            "type" : "string",
+            "description" : "Внешний код",
+            "example" : "37373737"
+          },
           "ACTIVE" : {
             "type" : "boolean",
             "description" : "Активность",
             "example" : true
-          },
-          "EMAIL" : {
-            "type" : "string",
-            "description" : "E-Mail",
-            "example" : "i.martyanov@bobro42.com"
           },
           "NAME" : {
             "type" : "string",
@@ -2147,14 +2304,67 @@
             "description" : "Отчество",
             "example" : "Семенович"
           },
+          "TITLE\"" : {
+            "type" : "string",
+            "description" : "Список пользователей",
+            "nullable" : true,
+            "example" : ""
+          },
+          "EMAIL" : {
+            "type" : "string",
+            "description" : "E-Mail",
+            "example" : "i.martyanov@bobro42.com"
+          },
+          "LAST_LOGIN" : {
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
+            "type" : "string",
+            "description" : "Последняя авторизация",
+            "example" : "2023-01-01T12:59:00+03:00"
+          },
+          "DATE_REGISTER" : {
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
+            "type" : "string",
+            "description" : "Дата регистрации",
+            "example" : "2022-01-01T03:00:00+03:00"
+          },
+          "TIME_ZONE" : {
+            "type" : "string",
+            "description" : "TIME_ZONE",
+            "example" : "+03"
+          },
+          "IS_ONLINE" : {
+            "type" : "string",
+            "description" : "IS_ONLINE",
+            "example" : "Y",
+            "enum" : [ "Y", "N" ]
+          },
+          "TIME_ZONE_OFFSET" : {
+            "type" : "string",
+            "description" : "TIME_ZONE_OFFSET",
+            "example" : "-3600"
+          },
+          "TIMESTAMP_X" : {
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
+            "type" : "string",
+            "description" : "TIMESTAMP_X",
+            "example" : "2023-01-01T18:21:50+03:00"
+          },
+          "LAST_ACTIVITY_DATE\"" : {
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
+            "type" : "string",
+            "description" : "LAST_ACTIVITY_DATE",
+            "example" : "2023-01-01T18:21:15+03:00"
+          },
           "PERSONAL_GENDER" : {
             "type" : "string",
             "description" : "Пол",
-            "example" : "M"
+            "example" : "M",
+            "enum" : [ "M", "F", "" ]
           },
           "PERSONAL_PROFESSION" : {
             "type" : "string",
             "description" : "Профессия",
+            "nullable" : true,
             "example" : "Управленец"
           },
           "PERSONAL_WWW" : {
@@ -2163,10 +2373,9 @@
             "example" : "www.ru"
           },
           "PERSONAL_BIRTHDAY" : {
-            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2}",
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
             "type" : "string",
             "description" : "Дата рождения",
-            "format" : "date-time",
             "example" : "1991-01-10T03:00:00+03:00"
           },
           "PERSONAL_PHOTO" : {
@@ -2177,72 +2386,200 @@
           "PERSONAL_ICQ" : {
             "type" : "string",
             "description" : "ICQ",
+            "nullable" : true,
             "example" : "000123321"
           },
           "PERSONAL_PHONE" : {
             "type" : "string",
             "description" : "Личный телефон",
-            "example" : "8 (999) 888-55-55"
+            "nullable" : true,
+            "example" : "8(999)888-55-55"
           },
           "PERSONAL_FAX" : {
             "type" : "string",
             "description" : "Факс",
-            "example" : "8 (999) 888-55-55"
+            "nullable" : true,
+            "example" : "8(999)888-55-55"
           },
           "PERSONAL_MOBILE" : {
             "type" : "string",
             "description" : "Личный мобильный",
+            "nullable" : true,
             "example" : "+79998885555"
           },
           "PERSONAL_PAGER" : {
             "type" : "string",
             "description" : "Пейджер",
+            "nullable" : true,
             "example" : "777555"
           },
           "PERSONAL_STREET" : {
             "type" : "string",
             "description" : "Улица проживания",
+            "nullable" : true,
             "example" : "Улица проживания"
           },
           "PERSONAL_CITY" : {
             "type" : "string",
             "description" : "Город проживания",
+            "nullable" : true,
             "example" : "Город проживания"
           },
           "PERSONAL_STATE" : {
             "type" : "string",
             "description" : "Область / край",
+            "nullable" : true,
             "example" : "Область / край"
           },
           "PERSONAL_ZIP" : {
             "type" : "string",
             "description" : "Почтовый индекс",
+            "nullable" : true,
             "example" : "Почтовый индекс"
           },
           "PERSONAL_COUNTRY" : {
             "type" : "string",
             "description" : "Страна",
+            "nullable" : true,
             "example" : "Россия"
+          },
+          "PERSONAL_MAILBOX" : {
+            "type" : "string",
+            "description" : "Почтовый ящик",
+            "nullable" : true,
+            "example" : "fox@example.com"
+          },
+          "PERSONAL_NOTES" : {
+            "type" : "string",
+            "description" : "Дополнительные заметки",
+            "nullable" : true,
+            "example" : "Some peronal notes"
+          },
+          "WORK_PHONE" : {
+            "type" : "string",
+            "description" : "Телефон компании",
+            "nullable" : true,
+            "example" : "8(999)888-00-00"
           },
           "WORK_COMPANY" : {
             "type" : "string",
             "description" : "Компания",
+            "nullable" : true,
             "example" : "Бобры и Зайцы"
           },
           "WORK_POSITION" : {
             "type" : "string",
             "description" : "Должность",
+            "nullable" : true,
             "example" : "Руководитель"
           },
-          "WORK_PHONE" : {
+          "WORK_DEPARTMENT" : {
             "type" : "string",
-            "description" : "Телефон компании",
-            "example" : "8 (999) 888-00-00"
+            "description" : "Отдел",
+            "nullable" : true,
+            "example" : "Бухгалтерия"
+          },
+          "WORK_WWW" : {
+            "type" : "string",
+            "description" : "Сайт компании",
+            "nullable" : true,
+            "example" : "bobro42.rt"
+          },
+          "WORK_FAX" : {
+            "type" : "string",
+            "description" : "WORK_FAX",
+            "nullable" : true,
+            "example" : "8 (999) 888-55-56"
+          },
+          "WORK_PAGER" : {
+            "type" : "string",
+            "description" : "WORK_PAGER",
+            "nullable" : true,
+            "example" : "777556"
+          },
+          "WORK_STREET" : {
+            "type" : "string",
+            "description" : "WORK_STREET",
+            "nullable" : true,
+            "example" : "Сумрачный тупик"
+          },
+          "WORK_MAILBOX" : {
+            "type" : "string",
+            "description" : "WORK_MAILBOX",
+            "nullable" : true,
+            "example" : "i.mar@work.com"
+          },
+          "WORK_CITY" : {
+            "type" : "string",
+            "description" : "Город работы",
+            "nullable" : true,
+            "example" : "Moscow"
+          },
+          "WORK_STATE" : {
+            "type" : "string",
+            "description" : "WORK_STATE",
+            "nullable" : true,
+            "example" : "Московская"
+          },
+          "WORK_ZIP" : {
+            "type" : "string",
+            "description" : "WORK_ZIP",
+            "nullable" : true,
+            "example" : "777666"
+          },
+          "WORK_COUNTRY" : {
+            "type" : "string",
+            "description" : "WORK_COUNTRY",
+            "nullable" : true,
+            "example" : "Russia"
+          },
+          "WORK_PROFILE" : {
+            "type" : "string",
+            "description" : "WORK_PROFILE",
+            "nullable" : true,
+            "example" : "Profile text"
+          },
+          "WORK_LOGO" : {
+            "type" : "string",
+            "description" : "WORK_LOGO",
+            "nullable" : true,
+            "example" : ""
+          },
+          "WORK_NOTES" : {
+            "type" : "string",
+            "description" : "WORK_NOTES",
+            "nullable" : true,
+            "example" : "Some working notes"
+          },
+          "UF_SKYPE_LINK" : {
+            "type" : "string",
+            "description" : "Ссылка на чат в Skype",
+            "nullable" : true,
+            "example" : "https://join.skype.com/j01N23DMaxYo"
+          },
+          "UF_ZOOM" : {
+            "type" : "string",
+            "description" : "Zoom",
+            "nullable" : true,
+            "example" : "999 888 7776"
+          },
+          "UF_EMPLOYMENT_DATE" : {
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
+            "type" : "string",
+            "description" : "Дата принятия на работу",
+            "example" : "1991-01-10T03:00:00+03:00"
+          },
+          "UF_TIMEMAN" : {
+            "pattern" : "\\d{0,}",
+            "type" : "string",
+            "description" : "Учет рабочего времени",
+            "nullable" : true,
+            "example" : "1200"
           },
           "UF_DEPARTMENT" : {
             "type" : "array",
             "description" : "Подразделения (IDs)",
-            "example" : [ 1, 8 ],
+            "example" : [ 1, 2 ],
             "items" : {
               "type" : "integer"
             }
@@ -2250,57 +2587,68 @@
           "UF_INTERESTS" : {
             "type" : "string",
             "description" : "Интересы",
+            "nullable" : true,
             "example" : "Музыка и фильмы"
           },
           "UF_SKILLS" : {
             "type" : "string",
             "description" : "Навыки",
+            "nullable" : true,
             "example" : "Управлять"
           },
           "UF_WEB_SITES" : {
             "type" : "string",
             "description" : "Другие сайты",
+            "nullable" : true,
             "example" : "www.bobro42.rt"
           },
           "UF_XING" : {
             "type" : "string",
             "description" : "Xing",
+            "nullable" : true,
             "example" : "https://www.xing.com/MartIvSen"
           },
           "UF_LINKEDIN" : {
             "type" : "string",
             "description" : "LinkedIn",
+            "nullable" : true,
             "example" : "https://www.linkedin.com/MartIvSen"
           },
           "UF_FACEBOOK" : {
             "type" : "string",
             "description" : "Facebook",
+            "nullable" : true,
             "example" : "https://www.fb.com/MartIvSen"
           },
           "UF_TWITTER" : {
             "type" : "string",
             "description" : "Twitter",
+            "nullable" : true,
             "example" : "https://twitter.com/MartIvSen"
           },
           "UF_SKYPE" : {
             "type" : "string",
-            "description" : "Логин Skype",
+            "description" : "Skype",
+            "nullable" : true,
             "example" : "MartIvSen"
           },
           "UF_DISTRICT" : {
             "type" : "string",
             "description" : "Район",
+            "nullable" : true,
             "example" : "Центральный-парк"
           },
           "UF_PHONE_INNER" : {
             "type" : "string",
             "description" : "Внутренний телефон",
+            "nullable" : true,
             "example" : "555"
           },
           "USER_TYPE" : {
             "type" : "string",
             "description" : "USER_TYPE",
-            "example" : ""
+            "nullable" : true,
+            "example" : "employee"
           }
         }
       },
@@ -2384,7 +2732,8 @@
             "description" : "Идентификатор найденного в CRM объекта"
           },
           "LEAD_CREATION_ERROR" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : ""
           }
         }
       },
@@ -2446,7 +2795,8 @@
             "description" : "Идентификатор звонка внутри Битрикс24"
           },
           "EXTERNAL_CALL_ID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : ""
           },
           "PORTAL_USER_ID" : {
             "type" : "integer",
@@ -2461,20 +2811,21 @@
             "description" : "Номер, на который поступил звонок (если это тип звонка 2 - Входящий) или номер, с которого был совершен звонок (1 - Исходящий)."
           },
           "INCOMING" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : ""
           },
           "CALL_DURATION" : {
             "type" : "integer",
             "description" : "Продолжительность звонка в секундах"
           },
           "CALL_START_DATE" : {
-            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}",
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
             "type" : "string",
-            "description" : "Время инициализации звонка. При сортировке по этому полю нужно указывать дату в формате ISO-8601",
-            "format" : "date-time"
+            "description" : "Время инициализации звонка. При сортировке по этому полю нужно указывать дату в формате ISO-8601"
           },
           "CALL_STATUS" : {
-            "type" : "integer"
+            "type" : "integer",
+            "description" : ""
           },
           "CALL_VOTE" : {
             "type" : "integer",
@@ -2555,10 +2906,12 @@
             "example" : "externalCall.d9a8a95eecfa4bfcadd922ac68bb7fa8.1601645100"
           },
           "EXTERNAL_CALL_ID" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : ""
           },
           "CALL_CATEGORY" : {
             "type" : "string",
+            "description" : "",
             "example" : "external"
           },
           "CALL_DURATION" : {
@@ -2567,10 +2920,9 @@
             "example" : "50"
           },
           "CALL_START_DATE" : {
-            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}",
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
             "type" : "string",
             "description" : "Время инициализации звонка. При сортировке по этому полю нужно указывать дату в формате ISO-8601",
-            "format" : "date-time",
             "example" : "2020-10-02T16:25:00+03:00"
           },
           "CALL_RECORD_URL" : {
@@ -2709,16 +3061,23 @@
             "example" : 0.0008461475372314453
           },
           "date_start" : {
-            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2}",
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
             "type" : "string",
-            "format" : "date-time",
             "example" : "2020-09-30T20:20:09+03:00"
           },
           "date_finish" : {
-            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2}",
+            "pattern" : "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\+\\d{2}:\\d{2})$|^$",
             "type" : "string",
-            "format" : "date-time",
             "example" : "2020-09-30T20:20:09+03:00"
+          },
+          "operating_reset_at" : {
+            "type" : "integer",
+            "example" : 1675256534
+          },
+          "operating" : {
+            "type" : "number",
+            "format" : "double",
+            "example" : 0.6170840263366699
           }
         }
       },
@@ -2815,7 +3174,7 @@
           "name" : "response"
         }
       },
-      "body" : {
+      "user_get_transport_body" : {
         "type" : "object",
         "properties" : {
           "sort" : {
@@ -2882,7 +3241,7 @@
           }
         }
       },
-      "body_1" : {
+      "user_search_transport_body" : {
         "type" : "object",
         "properties" : {
           "filter" : {
@@ -2927,14 +3286,14 @@
           }
         }
       },
-      "body_2" : {
+      "user_add_transport_body" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/user"
         }, {
           "required" : [ "EMAIL" ]
         } ]
       },
-      "body_3" : {
+      "user_add_transport_body_1" : {
         "xml" : {
           "name" : "request"
         },
@@ -2973,7 +3332,7 @@
           "name" : "response"
         }
       },
-      "body_4" : {
+      "user_update_transport_body" : {
         "allOf" : [ {
           "type" : "object",
           "properties" : {
@@ -2989,7 +3348,7 @@
           "required" : [ "ID" ]
         } ]
       },
-      "body_5" : {
+      "user_update_transport_body_1" : {
         "xml" : {
           "name" : "require"
         },
@@ -3041,7 +3400,7 @@
           "$ref" : "#/components/schemas/error"
         } ]
       },
-      "body_6" : {
+      "telephony_externalcall_register_transport_body" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/ext_call_register_req"
         }, {
@@ -3058,7 +3417,7 @@
           }
         }
       },
-      "body_7" : {
+      "telephony_externalcall_finish_transport_body" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/ext_call_finish_req"
         }, {
@@ -3131,7 +3490,7 @@
           }
         }
       },
-      "body_8" : {
+      "telephony_call_attachTranscription_transport_body" : {
         "required" : [ "CALL_ID", "MESSAGES" ],
         "type" : "object",
         "properties" : {
@@ -3294,7 +3653,7 @@
           "name" : "response"
         }
       },
-      "body_9" : {
+      "voximplant_statistic_get_transport_body" : {
         "type" : "object",
         "properties" : {
           "filter" : {
