@@ -24,6 +24,19 @@
         "default" : "b24-example"
       }
     }
+  }, {
+    "url" : "https://{subdomain}.bitrix24.ru/rest/1/{token}",
+    "description" : "без авторизации (через вебхук для вызова rest api )",
+    "variables" : {
+      "subdomain" : {
+        "description" : "Поддомен",
+        "default" : "b24-example"
+      },
+      "token" : {
+        "description" : "Токен",
+        "default" : "111a"
+      }
+    }
   } ],
   "security" : [ {
     "ApiIntegrationAuth" : [ ]
